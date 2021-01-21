@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-interface IReport extends Document {
+export interface IReport extends Document {
   title: string,
   description: string,
   tags: [string?],
