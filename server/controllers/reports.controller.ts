@@ -15,7 +15,8 @@ import * as Reports from '../models/reports.models/reports.model';
 export const getReport = async (req : Request, res : Response) : Promise<void> => {
   try {
     const reply = await Reports.getReport(req.params.id);
-    res.status(200).send(reply);
+    if (!reply) res.status(404).send('Report not found')
+    else res.status(200).send(reply);
   } catch (err) {
     console.log('Return single report error', err);
     res.status(500).send('Return single report error');

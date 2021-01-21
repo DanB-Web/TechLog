@@ -1,17 +1,17 @@
 import {Router} from 'express';
-const reports = require('./controllers/reports.controller');
-const authMiddleware = require('./middlewares/auth');
+import * as reportController from './controllers/reports.controller';
+import authMiddleware from './middlewares/auth';
 
 const router = Router();
 //Reports routes
-router.get('/allreports', reports.allReports);
+router.get('/allreports', reportController.allReports);
 
-router.get('/getreport/:id', reports.getReport);
+router.get('/getreport/:id', reportController.getReport);
 
-router.post('/postreport', reports.newReport);
+router.post('/postreport', reportController.newReport);
 
-router.patch('/editreport', authMiddleware, reports.editReport);
+router.patch('/editreport', authMiddleware, reportController.editReport);
 
-router.delete('/deletereport/:id', authMiddleware, reports.deleteReport);
+router.delete('/deletereport/:id', authMiddleware, reportController.deleteReport);
 
 export default router;

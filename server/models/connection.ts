@@ -1,16 +1,12 @@
-import mongoose, { Connection } from 'mongoose';
+import mongoose from 'mongoose';
 
-function connectToDB (uri : string, dbName: string) : Connection {
-
-  const db = mongoose.createConnection(uri, {
+function connectToDB (url : string, dbName: string) : Promise<typeof import('mongoose')> {
+  return mongoose.connect(`${url}/${dbName}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
-  })
-  .once('open', () => { console.log(`Successful connection to ${dbName}!`) })
-  .on('error', console.error.bind(console, `${dbName} connection error...`));
+  }, () => { console.log(`Successful connection to ${dbName}!`) });
 
-  return db;
 }
 
-export default () => connectToDB(process.env.DB_URL!, process.env.DB_NAME!)
+export default async () => await connectToDB(process.env.DB_URL!, process.env.DB_NAME!)

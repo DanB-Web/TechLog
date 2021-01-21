@@ -10,4 +10,4 @@ const authMiddleware : RequestHandler = async (_: any, res: Response, next: Next
   return;
 }
 
-module.exports = authMiddleware;
+export default authMiddleware;
