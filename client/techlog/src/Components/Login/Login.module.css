@@ -1,0 +1,22 @@
+.login__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: calc(85vh - 50px);
+}
+
+.login__title {
+  display: flex;
+  align-items: center;
+  margin-top: 3em;
+  font-size: 200%;
+  color: var(--color-secondary);
+}
+
+.login__title i {
+  margin-right: 1em;
+}
+
+.login__buttons button {
+  margin: 1em;
+}

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import * as React from 'react';
+import { useState } from 'react';
 
 import './EditReport.css';
 
@@ -11,7 +12,7 @@ const EditReport = ({editReport}) => {
 
   const [formEditState, setFormEdit] = useState(null);
 
-  const formFetch = async (reportId) => {
+  const formFetch = async (reportId: string) => {
     const report = await rest.getReport(reportId);
     setFormEdit(report);
   }

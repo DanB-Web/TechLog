@@ -24,7 +24,7 @@ const Authorised = () => {
   //Variable + func to store report id for 'copy and paste' from /search to /edit 
   const [editReport, setEditReport] = useState(null);
 
-  const reportId = (id) => {
+  const reportId = (id: any) => {
     setEditReport(id);
   };
 
@@ -33,8 +33,9 @@ const Authorised = () => {
     setAuthorised(false);
   }
 
+
   //Set admin rights
-  const adminRights = (arg) => {
+  function adminRights (arg: boolean) {
     setAdmin(arg);
     setAuthorised(true);
   }
@@ -75,6 +76,7 @@ const Authorised = () => {
             <Route exact path = '/search' render={(props) => (<SearchList {...props} admin={admin} reportId={reportId}/>)}/>  
             <Route exact path = '/new' component={NewReport}/>
             <Route exact path = '/edit' render={(props) => (<EditReport {...props} editReport={editReport}/>)}/>
+            {/* <Route exact path = '/logout' render={(props) => (<Login {...props} adminRights={adminRights}/>)}/> */}
             <Route exact path = '/logout' render={(props) => (<Login {...props} adminRights={adminRights}/>)}/>
             <Redirect to="/logout"/>
           </Switch>

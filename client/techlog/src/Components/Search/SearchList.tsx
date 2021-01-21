@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 
 import './SearchList.css';
 
@@ -28,14 +29,14 @@ const SearchList = ({ admin, reportId }) => {
   }
 
   //Add search tag
-  const searchTagHandler = (value) => {
+  const searchTagHandler = (value: any) => {
     const prevTags = [...searchTags];  //Copy as an array so a ref value
     if (!prevTags.includes(value)) prevTags.push(value);
     setSearchTags(prevTags);
   }
 
   //Delete search tag
-  const deleteTagHandler = (eventTarget) => {
+  const deleteTagHandler = (eventTarget: never) => {
     const prevTags = [...searchTags];
     const filterTags = prevTags.filter(element => element !== eventTarget);
     setSearchTags(filterTags);

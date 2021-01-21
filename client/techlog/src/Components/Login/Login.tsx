@@ -1,24 +1,30 @@
 import * as React from 'react';
+import {FC} from 'react'
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
-import { withRouter } from 'react-router-dom';
+import styles from './Login.module.css';
 
-import('./Login.css');
 
-const Login = ( { adminRights, history }) => {
+interface LoginProps {
+  adminRights : (hasAdminRights: boolean) => void,
+}
+
+const Login : FC<LoginProps & RouteComponentProps> = ( { adminRights , history } ) => {
+
 
   const adminMode = () => {
     adminRights(true);
     history.push('./search');
   }
 
-  const userMode =() => {
+  const userMode = () => {
     adminRights(false);
     history.push('./search');
   }
 
   return (
-    <div className="login__container">
-      <div className="login__title">
+    <div className={styles.login__container}>
+      <div className={styles.login__title}>
         <i className="fas fa-users"></i>
         <h3>Please log in...</h3>
       </div>

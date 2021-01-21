@@ -5,7 +5,7 @@ import Authorised from './Components/App/Authorised';
 import Unauthorised from './Components/App/Unauthorised';
 
 
-export function App () {
+export default function App () {
 
   //For future login functionality
   const authorised = true;
