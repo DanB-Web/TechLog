@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import {model, Schema, Document } from 'mongoose';
 
 export interface IReport extends Document {
   title: string,
@@ -16,4 +16,4 @@ const ReportSchema: Schema = new Schema({
   images: { type: [String], required: false}
 }, { autoCreate: true });
 
-export default mongoose.model<IReport>('Report', ReportSchema);
+export default model<IReport>('Report', ReportSchema);
