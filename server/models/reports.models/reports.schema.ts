@@ -1,12 +1,22 @@
 import {model, Schema, Document } from 'mongoose';
 
-export interface IReport extends Document {
+export interface IReport {
+  _id?: string,
+  title?: string,
+  description?: string,
+  tags?: [string?],
+  steps?: [string?],
+  images?: [string?]
+}
+
+export interface IReportDoc extends Document {
   title: string,
   description: string,
   tags: [string?],
   steps: [string?],
   images: [string?]
 }
+
 
 const ReportSchema: Schema = new Schema({
   title: { type: String, required: true},
@@ -16,4 +26,4 @@ const ReportSchema: Schema = new Schema({
   images: { type: [String], required: false}
 }, { autoCreate: true });
 
-export default model<IReport>('Report', ReportSchema);
+export default model<IReportDoc>('Report', ReportSchema);
