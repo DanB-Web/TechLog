@@ -20,3 +20,4 @@ const reportsConnection = makeNewConnection('mongodb://127.0.0.1:27017/reports',
 module.exports = {
     reportsConnection,
 };
+

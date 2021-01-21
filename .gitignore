@@ -1,6 +1,6 @@
 # directories
-/node_modules
 /solo-project-proposal
+node_modules
 
 # files
 .env
