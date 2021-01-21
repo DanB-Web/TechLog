@@ -1,6 +1,6 @@
 import Report, {IReportDoc, IReport} from './reports.schema';
 
-export const allReports = async () : Promise<[IReportDoc]> => await Report.find({});
+export const allReports = () : Promise<[IReportDoc]> => Report.find({});
 
 export const getReport = (id : string) : IReportDoc => Report.findById(id);
 
