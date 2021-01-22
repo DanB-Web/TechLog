@@ -8,9 +8,22 @@ import * as rest from '../../Utils/rest';
 import GetForm from '../../Form/GetForm'
 import Form from '../../Form/Form'
 
-const EditReport = ({editReport}) => {
+interface EditReportProps {
+  editReport: string;
+}
 
-  const [formEditState, setFormEdit] = useState(null);
+interface IReport {
+  _id?: string,
+  title: string,
+  tags: string[],
+  description: string,
+  steps: string[],
+  images?: string[]
+}
+
+const EditReport : React.FC<EditReportProps> = ({editReport}) => {
+
+  const [formEditState, setFormEdit] = useState<IReport | null>(null);
 
   const formFetch = async (reportId: string) => {
     const report = await rest.getReport(reportId);
@@ -18,8 +31,8 @@ const EditReport = ({editReport}) => {
     else setFormEdit(null);
   }
 
-  const formPatch = (title, searchTags, description, steps) => {
-    const { _id } = formEditState[0];
+  const formPatch = (title: string, searchTags: string[], description:string, steps: string[]) => {
+    const { _id } = formEditState![0];
     const formCopy = { _id, title, tags:searchTags, description, steps}
     rest.editReport(formCopy);
     setFormEdit(null);

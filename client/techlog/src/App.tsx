@@ -11,7 +11,7 @@ export default function App () {
   const authorised = true;
 
   return (
-    <div className="App">
+    <div className="App" data-testid="app">
       {authorised ? 
         <Authorised/> :
         <Unauthorised/>}

@@ -12,28 +12,30 @@ interface IReport {
   images?: string[]
 }
 
-export const getReports = async () : Promise<IReport[]> => {
+export const getReports = async () : Promise<IReport[] | undefined>  => {
 
-  let dbCall : Promise<IReport[]>;
-
-  await fetch(BASE_URL + 'allreports')
-    .then(response => response.json())
-    .then(data => {dbCall = data})
-    .catch(err => console.log('Fetch error', err));
-
-    return dbCall;
+  try {
+    const dbCall = await fetch(BASE_URL + 'allreports')
+      .then(response => response.json());
+    return dbCall
+    
+  } catch (error) {
+    console.log('Fetch error', error)
+  }
+  return;
 }
 
-export const getReport = async (id: string ): Promise<IReport> => {
+export const getReport = async (id: string ): Promise<IReport | undefined> => {
 
-  let dbCall: Promise<IReport>;
+  try {
+    let report = await fetch(BASE_URL + `getreport/${id}`)
+      .then(response => response.json());
+    return report;
 
-  await fetch(BASE_URL + `getreport/${id}`)
-    .then(response => response.json())
-    .then(data => {dbCall = data})
-    .catch(err => console.log('Fetch error', err));
-
-    return dbCall;
+  } catch (error) {
+    console.log('Fetch error', error);
+  }
+  return;
 }
 
 export const postReport = async (title: string, searchTags: string[], description: string, steps: string[], filterPics: HTMLInputElement[]): Promise<void> => {
@@ -66,7 +68,7 @@ export const uploadPics = async (filterPics : HTMLInputElement[]) : Promise<stri
     for (const pic of filterPics) {
 
       const formData = new FormData();
-      formData.append('file', pic.files[0]);
+      formData.append('file', pic.files![0]);
       formData.append('upload_preset', 'ppgbubn6');
 
       await fetch(PIC_URL + 'upload', {

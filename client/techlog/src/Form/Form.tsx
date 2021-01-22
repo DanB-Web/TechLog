@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect, FC , SyntheticEvent, MouseEvent } from 'react';
+import { useState, useEffect, FC } from 'react';
 import { withRouter, useLocation, RouteComponentProps } from 'react-router-dom';
 
 import { formAnimations } from '../Utils/animations';
