@@ -4,17 +4,18 @@ export interface IReport {
   _id?: string,
   title?: string,
   description?: string,
-  tags?: [string?],
-  steps?: [string?],
-  images?: [string?]
+  tags?: string[],
+  steps?: string[],
+  images?: string[],
+  __v? : number
 }
 
 export interface IReportDoc extends Document {
   title: string,
   description: string,
-  tags: [string?],
-  steps: [string?],
-  images: [string?]
+  tags: string[],
+  steps: string[],
+  images: string[]
 }
 
 

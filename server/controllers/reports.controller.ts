@@ -18,8 +18,8 @@ export const getReport = async (req : Request, res : Response) : Promise<void> =
     if (!reply) res.status(404).send('Report not found')
     else res.status(200).send(reply);
   } catch (err) {
-    console.log('Return single report error', err);
-    res.status(500).send('Return single report error');
+    if (err.kind === 'ObjectId') res.status(404).send('Report not found')
+    else res.status(500).send('Return single report error');
   }
 }
 
@@ -29,8 +29,8 @@ export const newReport = async (req : Request, res : Response) : Promise<void> =
     const reply = await Reports.newReport(data);
     res.status(201).send(reply);
   } catch (err) {
-    console.log('Create new report error', err);
-    res.status(500).send('Create new report error');
+    if (err._message === 'Report validation failed') res.status(400).send('Invalid Report Format')
+    else res.status(500).send('Create new report error');
   }
 }
 
@@ -39,7 +39,8 @@ export const editReport = async (req : Request, res : Response) => {
     const { _id, title, description, tags, steps } = req.body;
     const data : IReport = {  title, description, tags, steps }
     const reply = await Reports.editReport(_id, data);
-    res.status(200).send(reply);
+    if (!reply) res.status(404).send('Report not found')
+    else res.status(200).send(reply);
   } catch (err) {
     console.log('Edit report error', err);
     res.status(500).send('Edit report error');
@@ -49,7 +50,8 @@ export const editReport = async (req : Request, res : Response) => {
 export const deleteReport = async (req : Request, res : Response) => {
   try {
     const reply = await Reports.deleteReport(req.params.id);
-    res.status(200).send(reply);
+    if (!reply) res.status(404).send('Report does not exist')
+    else res.status(200).send(reply);
   } catch (err) {
     console.log('Delete report error', err);
     res.status(500).send('Delete report error');
