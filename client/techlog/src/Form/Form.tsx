@@ -17,7 +17,7 @@ interface IForm {
 interface FormProps {
   formSubmit : (title:string, searchTags:string[], description:string, steps:string[], pics:string[]) => void,
   formPatch: (title:string, searchTags:string[], description:string, steps:string[]) => void,
-  form: IForm
+  form?: IForm
 }
 
 //Note formSubmit comes from NewReport.js, and formPatch from EditReport.js

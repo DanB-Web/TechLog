@@ -3,7 +3,7 @@ import {Fragment} from 'react';
 
 import './Modal.css';
 
-import rest from '../Utils/rest';
+import * as rest from '../Utils/rest';
 
 import Image from './Image';
 

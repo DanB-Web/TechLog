@@ -6,7 +6,7 @@ const SearchTags = ({form, customTagHandler}) => {
 
   //Event listener to remove tags
   useEffect( () => {
-    document.querySelector('.report__search-tags').addEventListener('click', (event) => {
+    document.querySelector('.report__search-tags')!.addEventListener('click', (event: any) => {
       if (event.target.tagName === 'LI') event.target.parentNode.removeChild(event.target);
     })},
   []);
@@ -35,7 +35,7 @@ const SearchTags = ({form, customTagHandler}) => {
             <input type="checkbox" className="search-tag__checkbox" value="reach"/>
           </div>
         </div>
-          
+
         <p>Item</p>
         <hr></hr>
         <div className="search-tag__fixed__section">
@@ -45,7 +45,7 @@ const SearchTags = ({form, customTagHandler}) => {
           </div>
           <div className="search-tag__fixed">
             <p>TMS</p>
-            <input type="checkbox" className="search-tag__checkbox" valu="TMS"/>
+            <input type="checkbox" className="search-tag__checkbox" value="TMS"/>
           </div>
           <div className="search-tag__fixed">
             <p>Winch</p>
@@ -86,7 +86,7 @@ const SearchTags = ({form, customTagHandler}) => {
 
     <div className="report__search-tags__custom">
       {form ? <label>Tags</label> : <label>Custom Tags</label>}
-      <ul id="custom__tag__hook">{form && form.tags.map((tag, index) => 
+      <ul id="custom__tag__hook">{form && form.tags.map((tag, index) =>
         <li key={index} className="search-tag__custom">#{tag}</li>)}
       </ul>
       <div className="report__search-tags__input">

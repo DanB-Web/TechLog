@@ -21,10 +21,10 @@ const Authorised = () => {
   const [admin, setAdmin] = useState(true);               //Admin mode
   const [mode, setMode] = useState('light');              //Light / dark mode
 
-  //Variable + func to store report id for 'copy and paste' from /search to /edit 
-  const [editReport, setEditReport] = useState(null);
+  //Variable + func to store report id for 'copy and paste' from /search to /edit
+  const [editReport, setEditReport] = useState<string>('');
 
-  const reportId = (id: any) => {
+  const reportId = (id: string) => {
     setEditReport(id);
   };
 
@@ -45,11 +45,11 @@ const Authorised = () => {
     modeAnimation();
     if (mode === 'light') {
       trans();
-      setMode('dark'); 
+      setMode('dark');
       document.documentElement.setAttribute('data-theme', 'dark');
     } else {
       trans();
-      setMode('light'); 
+      setMode('light');
       document.documentElement.setAttribute('data-theme', 'light');
     }
   }
@@ -65,7 +65,7 @@ const Authorised = () => {
     <Router>
       <div className="footer-wrap">
         <div className="main-app">
-          <Navbar 
+          <Navbar
             logout={logout}
             mode={mode}
             authorised={authorised}
@@ -73,7 +73,7 @@ const Authorised = () => {
             admin={admin}
             />
           <Switch>
-            <Route exact path = '/search' render={(props) => (<SearchList {...props} admin={admin} reportId={reportId}/>)}/>  
+            <Route exact path = '/search' render={(props) => (<SearchList {...props} admin={admin} reportId={reportId}/>)}/>
             <Route exact path = '/new' component={NewReport}/>
             <Route exact path = '/edit' render={(props) => (<EditReport {...props} editReport={editReport}/>)}/>
             {/* <Route exact path = '/logout' render={(props) => (<Login {...props} adminRights={adminRights}/>)}/> */}

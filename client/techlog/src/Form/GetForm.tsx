@@ -2,17 +2,22 @@ import * as React from 'react';
 
 import './GetForm.css';
 
-const GetForm = ({ editReport, formFetch }) => {
+interface GetFormProps {
+  editReport: string,
+  formFetch: (id: string) => void
+}
+
+const GetForm : React.FC<GetFormProps> = ({ editReport, formFetch }) => {
 
   const getReport = () => {
     const reportId = document.getElementById('report__id');
-    formFetch(reportId.value);
-    reportId.value = '';
+    formFetch(String(reportId!.value));
+    reportId!.innerHTML = '';
   }
 
   const pasteId = () => {
     const reportId = document.getElementById('report__id');
-    reportId.value = editReport;
+    reportId!.innerHTML = editReport;
   }
 
   return (
@@ -21,7 +26,7 @@ const GetForm = ({ editReport, formFetch }) => {
         <h3>REPORT ID:</h3>
         <input id="report__id" name="report__id" type="text"></input>
         <button onClick={getReport}>FIND REPORT</button>
-        {editReport && 
+        {editReport &&
           <button onClick={pasteId}>PASTE ID</button>
         }
       </div>

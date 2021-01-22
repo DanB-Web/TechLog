@@ -3,10 +3,10 @@ const BASE_URL = 'http://localhost:3002/';
 const cloudName = 'techlog-cloud-key';
 const PIC_URL = `https://api.cloudinary.com/v1_1/${cloudName}/`
 
-const getReports = async () => {
-  
+export const getReports = async () => {
+
   let dbCall;
-  
+
   await fetch(BASE_URL + 'allreports')
     .then(response => response.json())
     .then(data => {dbCall = data})
@@ -15,7 +15,7 @@ const getReports = async () => {
     return dbCall;
 }
 
-const getReport = async (id) => {
+export const getReport = async (id) => {
 
   let dbCall;
 
@@ -27,8 +27,8 @@ const getReport = async (id) => {
     return dbCall;
 }
 
-const postReport = async (title, searchTags, description, steps, filterPics) => {
-  
+export const postReport = async (title, searchTags, description, steps, filterPics) => {
+
     //Format + upload pics if required
     let picsUrls = await uploadPics(filterPics);
 
@@ -44,12 +44,12 @@ const postReport = async (title, searchTags, description, steps, filterPics) => 
       steps: steps,
       images: picsUrls
     })
-  }).catch(err => console.log('Fetch error (SERVER)', err)); 
+  }).catch(err => console.log('Fetch error (SERVER)', err));
 }
 
-const uploadPics = async (filterPics) => {
-  
-  let picsUrls = [];
+export const uploadPics = async (filterPics) => {
+
+  let picsUrls : string[] = [];
 
   if (filterPics.length > 0) {
 
@@ -66,13 +66,13 @@ const uploadPics = async (filterPics) => {
       }).then(response => response.json())
         .then(data => picsUrls.push(data.url))
         .catch(err => console.log('Fetch error (CLOUDINARY)', err))
-      }  
+      }
       return picsUrls;
   }
     return [];
 }
 
-const editReport = async (formCopy) => {
+export const editReport = async (formCopy) => {
   const { _id, title, tags, description, steps } = formCopy;
 
   await fetch(BASE_URL + 'editreport', {
@@ -87,19 +87,12 @@ const editReport = async (formCopy) => {
       description: description,
       steps: steps
     })
-  }).catch(err => console.log('Fetch error', err)); 
+  }).catch(err => console.log('Fetch error', err));
 }
 
-const deleteReport = async (id) => {
+export const deleteReport = async (id) => {
   await fetch(BASE_URL + `deletereport/${id}`, {
     method: 'DELETE'
   }).catch(err => console.log('Fetch error', err))
 }
 
-module.exports = {
-  getReports,
-  getReport,
-  postReport,
-  editReport,
-  deleteReport
-}

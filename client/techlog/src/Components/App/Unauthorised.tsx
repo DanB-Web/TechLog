@@ -6,7 +6,7 @@ import Login from '../Login/Login';
 
 const Unauthorised = () => {
   return (
-    <Login/>
+    <Login adminRights = {(arg: boolean) => {}}/>
   )
 }
 

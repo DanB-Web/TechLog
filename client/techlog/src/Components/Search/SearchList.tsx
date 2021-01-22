@@ -3,13 +3,13 @@ import { useState, useEffect } from 'react';
 
 import './SearchList.css';
 
-import { listItemAnimation } from '../../Utils/animations'; 
+import { listItemAnimation } from '../../Utils/animations';
 
 import SearchBar from './SearchBar';
 import SearchTags from './SearchTags';
 import SearchItem from './SearchItem';
 
-import rest from '../../Utils/rest';
+import * as rest from '../../Utils/rest';
 
 const SearchList = ({ admin, reportId }) => {
 
@@ -18,7 +18,7 @@ const SearchList = ({ admin, reportId }) => {
 
   //Initial render
   useEffect(() => {
-    callReports();  
+    callReports();
   }, []);
 
   //Call for reports
@@ -45,21 +45,21 @@ const SearchList = ({ admin, reportId }) => {
   return (
     <div className="searchlist__container">
 
-      <SearchBar 
+      <SearchBar
         classname="searchlist__searchbar"
         searchTagHandler={searchTagHandler}
       />
 
-      <ul 
+      <ul
         className="searchlist__searchtags">
         {searchTags.length !== 0 &&
-        searchTags.map((tag, index) => <SearchTags 
+        searchTags.map((tag, index) => <SearchTags
           key={index}
           tag={tag}
-          deleteTagHandler={() => deleteTagHandler(tag)}  
+          deleteTagHandler={() => deleteTagHandler(tag)}
         />)}
       </ul>
-      
+
       <ul
         className="searchlist__searchitems">
         {reports.length !== 0 ?

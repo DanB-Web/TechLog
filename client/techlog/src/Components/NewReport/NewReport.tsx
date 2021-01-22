@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import './NewReport.css';
 
-import rest from '../../Utils/rest';
+import * as rest from '../../Utils/rest';
 
 import Form from '../../Form/Form'
 
@@ -17,6 +17,7 @@ const NewReport = () => {
     <div className="new__report__container">
       <Form
         formSubmit={formSubmit}
+        formPatch={(title:string, searchTags:string[], description:string, steps:string[]) => {}}
       />
     </div>
   )

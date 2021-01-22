@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import './EditReport.css';
 
-import rest from '../../Utils/rest';
+import * as rest from '../../Utils/rest';
 
 import GetForm from '../../Form/GetForm'
 import Form from '../../Form/Form'
@@ -22,7 +22,7 @@ const EditReport = ({editReport}) => {
     const formCopy = { _id, title, tags:searchTags, description, steps}
     rest.editReport(formCopy);
     setFormEdit(null);
-  } 
+  }
 
   return (
     <div className="edit__report__container">
