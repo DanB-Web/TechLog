@@ -14,7 +14,8 @@ const EditReport = ({editReport}) => {
 
   const formFetch = async (reportId: string) => {
     const report = await rest.getReport(reportId);
-    setFormEdit(report);
+    if (report) setFormEdit(report);
+    else setFormEdit(null);
   }
 
   const formPatch = (title, searchTags, description, steps) => {
@@ -26,8 +27,10 @@ const EditReport = ({editReport}) => {
 
   return (
     <div className="edit__report__container">
-    {formEditState === null ? <GetForm editReport={editReport} formFetch={formFetch}/> :
-    <Form form={formEditState[0]} formPatch={formPatch}/>}
+    {
+    formEditState === null ? <GetForm editReport={editReport} formFetch={formFetch}/> :
+    <Form form={formEditState[0]} formPatch={formPatch} formSubmit={(title, searchTags, description, steps, pics) => {}}/>
+    }
   </div>
   )
 }

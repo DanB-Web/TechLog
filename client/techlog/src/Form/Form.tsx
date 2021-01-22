@@ -15,7 +15,7 @@ interface IForm {
 }
 
 interface FormProps {
-  formSubmit : (title:string, searchTags:string[], description:string, steps:string[], pics:string[]) => void,
+  formSubmit : (title:string, searchTags:string[], description:string, steps:string[], pics:Element[]) => void,
   formPatch: (title:string, searchTags:string[], description:string, steps:string[]) => void,
   form?: IForm
 }
@@ -35,8 +35,8 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
       const searchTags = tagsHandler();
       const description = String(document.getElementById('report__description__input')!.value);
       const steps = stepsHandler();
-      const pics: string[] = [];
-      document.querySelectorAll('.pics').forEach(el => pics.push(String(el)));
+      const pics: Element[] = [];
+      document.querySelectorAll('.pics').forEach(el => pics.push(el));
 
       //Baisc form validation
       if (title === '' || searchTags.length === 0 || description === '') {
@@ -94,8 +94,7 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
       const newTag = document.createElement('li');
       newTag.textContent = `#${customTag}`;
       document.getElementById('custom__tag__hook')!.appendChild(newTag);
-      //Dan had line below this way--> document.getElementById('custom__tag__input').value = '';
-      document.getElementById('custom__tag__input')!.innerHTML = '';
+      document.getElementById('custom__tag__input')!.value = '' as any;
     }
 
     //Add steps to DOM and updates state
@@ -108,7 +107,7 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
       newStep.classList.add("report__steps-li");
       newStep.textContent = customStep;
       stepsHook!.appendChild(newStep);
-      document.getElementById('add__step')!.innerHTML='';
+      document.getElementById('add__step')!.value = '' as any;
     }
 
     const stepsHandler = () => {
@@ -167,9 +166,9 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
       {location.pathname === '/new' &&
       <div className="report__uploads">
             <label>Upload Pictures</label>
-            <input type="file" className="pics"></input>
-            <input type="file" className="pics"></input>
-            <input type="file" className="pics"></input>
+            <input type="file" className="pics" accept='.png, .jpg, .jpeg'></input>
+            <input type="file" className="pics" accept='.png, .jpg, .jpeg'></input>
+            <input type="file" className="pics" accept='.png, .jpg, .jpeg'></input>
       </div>}
 
       <input className="report__submit__btn" type="submit" value="SUBMIT"/>

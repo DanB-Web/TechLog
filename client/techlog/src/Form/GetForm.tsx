@@ -12,12 +12,12 @@ const GetForm : React.FC<GetFormProps> = ({ editReport, formFetch }) => {
   const getReport = () => {
     const reportId = document.getElementById('report__id');
     formFetch(String(reportId!.value));
-    reportId!.innerHTML = '';
+    reportId!.value = '' as any;
   }
 
   const pasteId = () => {
     const reportId = document.getElementById('report__id');
-    reportId!.innerHTML = editReport;
+    reportId!.value = editReport as any ;
   }
 
   return (
