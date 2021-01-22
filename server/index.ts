@@ -21,6 +21,6 @@ app.use(
 
 // Connect to the databse and start the server
 connection();
-app.listen(PORT, () => {
+export default app.listen(PORT, () => {
   console.log(`Server running on ${HOST}:${PORT} 🚀🚀🚀`);
 });

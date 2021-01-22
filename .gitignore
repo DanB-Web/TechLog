@@ -1,6 +1,7 @@
 # directories
 /solo-project-proposal
 node_modules
+.nyc_output
 
 # files
 .env

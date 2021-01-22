@@ -8,5 +8,5 @@ function connectToDB (url : string, dbName: string) : Promise<typeof import('mon
   }, () => { console.log(`Successful connection to ${dbName}!`) });
 
 }
-
-export default async () => await connectToDB(process.env.DB_URL!, process.env.DB_NAME!)
+const DB = process.env.NODE_ENV === 'test' ? process.env.DB_NAME_TEST! : process.env.DB_NAME!;
+export default async () => await connectToDB(process.env.DB_URL!, DB)
