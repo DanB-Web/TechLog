@@ -1,11 +1,11 @@
-import React from 'react';
+import * as React from 'react';
 import './App.css';
-
+//cool stuff
 import Authorised from './Components/App/Authorised';
 import Unauthorised from './Components/App/Unauthorised';
 
 
-function App() {
+export default function App () {
 
   //For future login functionality
   const authorised = true;
@@ -19,4 +19,4 @@ function App() {
   );
 }
 
-export default App;
+
