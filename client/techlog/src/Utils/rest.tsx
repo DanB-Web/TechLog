@@ -3,9 +3,18 @@ const BASE_URL = 'http://localhost:3002/';
 const cloudName = 'techlog-cloud-key';
 const PIC_URL = `https://api.cloudinary.com/v1_1/${cloudName}/`
 
-export const getReports = async () => {
+interface IReport {
+  _id?: string,
+  title: string,
+  tags: string[],
+  description: string,
+  steps: string[],
+  images?: string[]
+}
 
-  let dbCall;
+export const getReports = async () : Promise<IReport[]> => {
+
+  let dbCall : Promise<IReport[]>;
 
   await fetch(BASE_URL + 'allreports')
     .then(response => response.json())
@@ -15,9 +24,9 @@ export const getReports = async () => {
     return dbCall;
 }
 
-export const getReport = async (id) => {
+export const getReport = async (id: string ): Promise<IReport> => {
 
-  let dbCall;
+  let dbCall: Promise<IReport>;
 
   await fetch(BASE_URL + `getreport/${id}`)
     .then(response => response.json())
@@ -27,10 +36,10 @@ export const getReport = async (id) => {
     return dbCall;
 }
 
-export const postReport = async (title, searchTags, description, steps, filterPics) => {
+export const postReport = async (title: string, searchTags: string[], description: string, steps: string[], filterPics: HTMLInputElement[]): Promise<void> => {
 
     //Format + upload pics if required
-    let picsUrls = await uploadPics(filterPics);
+    let picsUrls : string[] = await uploadPics(filterPics);
 
     await fetch(BASE_URL + 'postreport', {
     method: 'POST',
@@ -47,7 +56,7 @@ export const postReport = async (title, searchTags, description, steps, filterPi
   }).catch(err => console.log('Fetch error (SERVER)', err));
 }
 
-export const uploadPics = async (filterPics) => {
+export const uploadPics = async (filterPics : HTMLInputElement[]) : Promise<string[]> => {
 
   let picsUrls : string[] = [];
 
@@ -72,7 +81,7 @@ export const uploadPics = async (filterPics) => {
     return [];
 }
 
-export const editReport = async (formCopy) => {
+export const editReport = async (formCopy: IReport) : Promise<void> => {
   const { _id, title, tags, description, steps } = formCopy;
 
   await fetch(BASE_URL + 'editreport', {
@@ -90,7 +99,7 @@ export const editReport = async (formCopy) => {
   }).catch(err => console.log('Fetch error', err));
 }
 
-export const deleteReport = async (id) => {
+export const deleteReport = async (id: string) : Promise<void>  => {
   await fetch(BASE_URL + `deletereport/${id}`, {
     method: 'DELETE'
   }).catch(err => console.log('Fetch error', err))
