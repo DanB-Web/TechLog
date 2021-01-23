@@ -1,4 +1,3 @@
-import * as React from 'react';
 import {FC} from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 

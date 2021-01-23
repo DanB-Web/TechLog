@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import './NewReport.css';
 
 import * as rest from '../../Utils/rest';
