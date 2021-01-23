@@ -4,11 +4,11 @@ import Image from '../Image'
 
 const src = 'test.jpg';
 
-describe('NewReport component tests', () => {
+describe('Image component tests', () => {
 
   afterEach(cleanup);
 
-  it('should render NewReport component', () => {
+  it('should render Image component', () => {
     const {getByRole} =  render(<Image image={src}/>);
     const img = getByRole('img');
     expect((img as HTMLImageElement).src).toBe(`http://localhost/${src}`)
