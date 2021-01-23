@@ -3,8 +3,8 @@ import { render , screen } from '@testing-library/react';
 import Footer from '../Footer';
 
 describe('SearchTags Tests', () => {
-  it('Should render the search item tag', async () => {    
+  it('Should render the footer', async () => {    
    render(<Footer />);
-    expect(await screen.findByText(/#testTag/)).toBeInTheDocument();
+    expect(await screen.findByText(/DanB/)).toBeInTheDocument();
   });
 })
