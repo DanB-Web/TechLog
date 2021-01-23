@@ -1,5 +1,5 @@
 import {FC} from 'react'
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { RouteComponentProps, useHistory, withRouter } from 'react-router-dom';
 
 import styles from './Login.module.css';
 
@@ -8,17 +8,18 @@ interface LoginProps {
   adminRights : (hasAdminRights: boolean) => void,
 }
 
-const Login : FC<LoginProps & RouteComponentProps> = ( { adminRights , history } ) => {
+const Login : FC<LoginProps & RouteComponentProps> = ( { adminRights } ) => {
 
+  const history = useHistory()
 
   const adminMode = () => {
     adminRights(true);
-    history.push('./search');
+    history.push('/search');
   }
 
   const userMode = () => {
     adminRights(false);
-    history.push('./search');
+    history.push('/search');
   }
 
   return (
