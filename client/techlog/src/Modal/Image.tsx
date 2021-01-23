@@ -2,7 +2,11 @@ import * as React from 'react'
 
 import './Image.css';
 
-const Image = ({image}) => {
+interface ImageProps {
+  image: string
+}
+
+const Image : React.FC<ImageProps> = ({image}) => {
 
 
   return (

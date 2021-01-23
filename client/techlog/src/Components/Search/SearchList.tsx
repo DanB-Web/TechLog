@@ -3,18 +3,24 @@ import { useState, useEffect } from 'react';
 
 import './SearchList.css';
 
+import { IReport } from '../../Utils/interfaces';
 import { listItemAnimation } from '../../Utils/animations';
 
 import SearchBar from './SearchBar';
 import SearchTags from './SearchTags';
 import SearchItem from './SearchItem';
 
-import * as rest from '../../Utils/rest';
+import rest from '../../Utils/rest';
 
-const SearchList = ({ admin, reportId }) => {
+interface SearchListProps {
+  admin: boolean,
+  reportId: (id:string) => void
+}
 
-  const [reports, setReports] = useState([]);
-  const [searchTags, setSearchTags] = useState([]);
+const SearchList :React.FC<SearchListProps> = ({ admin, reportId }) => {
+
+  const [reports, setReports] = useState<IReport[]>([]);
+  const [searchTags, setSearchTags] = useState<string[]>([]);
 
   //Initial render
   useEffect(() => {
@@ -23,20 +29,21 @@ const SearchList = ({ admin, reportId }) => {
 
   //Call for reports
   const callReports = async () => {
-    const dbCall = await rest.getReports();
-    setReports(dbCall);
+    const dbCall : IReport[] | undefined = await rest.getReports();
+    console.log('dbCall', dbCall);
+    if (dbCall) setReports(dbCall);
     listItemAnimation();
   }
 
   //Add search tag
-  const searchTagHandler = (value: any) => {
-    const prevTags = [...searchTags];  //Copy as an array so a ref value
+  const searchTagHandler = (value: string) => {
+    const prevTags : string[] = [...searchTags];  //Copy as an array so a ref value
     if (!prevTags.includes(value)) prevTags.push(value);
     setSearchTags(prevTags);
   }
 
   //Delete search tag
-  const deleteTagHandler = (eventTarget: never) => {
+  const deleteTagHandler = (eventTarget: string) => {
     const prevTags = [...searchTags];
     const filterTags = prevTags.filter(element => element !== eventTarget);
     setSearchTags(filterTags);
@@ -46,7 +53,7 @@ const SearchList = ({ admin, reportId }) => {
     <div className="searchlist__container">
 
       <SearchBar
-        classname="searchlist__searchbar"
+        data-testid="search-bar"
         searchTagHandler={searchTagHandler}
       />
 
@@ -65,8 +72,9 @@ const SearchList = ({ admin, reportId }) => {
         {reports.length !== 0 ?
         reports.map((report, index) => <SearchItem
           key={index}
+          data-testid={`report-item-${index}`}
           admin={admin}
-          id={report._id}
+          id={report._id ? report._id  : ''}
           title={report.title}
           tags={report.tags}
           description={report.description}

@@ -11,7 +11,7 @@
     ],
     "sourceMap": true,
     "allowJs": true,
-    "jsx": "react-jsx",
+    "jsx": "react",
     "moduleResolution": "node",
     "rootDir": "src",
     "forceConsistentCasingInFileNames": true,
@@ -36,11 +36,15 @@
     "scripts",
     "acceptance-tests",
     "webpack",
-    "jest",
     "src/setupTests.ts"
   ],
   "include": [
-    "./src/**/*.ts"
+    "./src/**/*.ts",
+    "./src/**/*.tsx"
   ],
-  "extends": "./tsconfig.paths.json"
+  "extends": "./tsconfig.paths.json",
+  "types": [
+    "jest",
+    "node"
+  ]
 }

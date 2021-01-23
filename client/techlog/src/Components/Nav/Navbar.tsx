@@ -4,8 +4,15 @@ import { Link } from 'react-router-dom';
 
 import './Navbar.css';
 
-const Navbar = ({admin, logout, mode, authorised, toggleMode}) => {
+interface NavBarProps {
+  admin: boolean;
+  logout: () => void,
+  mode: string,
+  authorised: boolean,
+  toggleMode: () => void
+}
 
+const Navbar: React.FC<NavBarProps> = ({admin, logout, mode, authorised, toggleMode}) => {
 
   return (
     <nav className="navbar__container">
@@ -16,16 +23,15 @@ const Navbar = ({admin, logout, mode, authorised, toggleMode}) => {
   
       {authorised && 
         <div className="navbar__links">
-            <Link to='/search'>Search</Link>
-            <Link to='/new'>New</Link>
-            {admin ? <Link to='/edit'>Edit</Link> : null}
-            <Link to="/logout" onClick={logout}>Logout</Link>
-            <div className="mode__div">
-              {mode === 'light' ? <i className="fas fa-moon"></i> : <i className="fas fa-sun"></i>}
-              <button className="navbar__mode-switch" onClick={toggleMode}>X</button>
-            </div>
-          </div>}
-      
+          <Link to='/search'>Search</Link>
+          <Link to='/new'>New</Link>
+          {admin ? <Link to='/edit'>Edit</Link> : null}
+          <Link to="/logout" onClick={logout}>Logout</Link>
+          <div className="mode__div">
+            {mode === 'light' ? <i className="fas fa-moon"></i> : <i className="fas fa-sun"></i>}
+            <button className="navbar__mode-switch" onClick={toggleMode}>X</button>
+          </div>
+        </div>}
     </nav>
   )
 }

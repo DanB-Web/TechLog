@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 
 import './SearchBar.css';
 
-const SearchBar = ({ searchTagHandler }) => {
-  
+interface SearchBarProps {
+  searchTagHandler: (searchTerm: string) => void,
+}
+
+const SearchBar : React.FC<SearchBarProps> = ({ searchTagHandler }) => {
+
   const [searchTerm, setSearchTerm] = useState('');
 
-  const inputField = document.querySelector('.searchbar__input');
+  // const inputField = document.querySelector('.searchbar__input');
 
   //Enter key handler
-  const enterHandler = (code) => {
+  const enterHandler = (code: number) => {
     if (code === 13) {
       searchTagHandler(searchTerm);
       clearInput();
@@ -17,21 +21,24 @@ const SearchBar = ({ searchTagHandler }) => {
   }
 
   const clearInput = () => {
-    inputField.value = '';
+   setSearchTerm('')
   }
 
   return (
     <div className="searchbar__container">
       <i className="fas fa-hashtag"></i>
-      <input 
-        className="searchbar__input" 
-        type="text" 
+      <input
+        className="searchbar__input"
+        type="text"
         onChange={event => setSearchTerm(event.target.value)}
-        onKeyDown ={event => enterHandler(event.keyCode)}  
+        value={searchTerm}
+        onKeyDown ={event => enterHandler(event.keyCode)}
         ></input>
-      <button 
+      <button
         className="searchbar__submit-btn"
-        onClick={() => {searchTagHandler(searchTerm); clearInput();}}
+        onClick={() => { console.log('I\'m being clicked, and the input is: ', searchTerm);
+          searchTagHandler(searchTerm); 
+          clearInput();}}
       >ADD TAG</button>
     </div>
   )

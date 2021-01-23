@@ -10,13 +10,13 @@ interface GetFormProps {
 const GetForm : React.FC<GetFormProps> = ({ editReport, formFetch }) => {
 
   const getReport = () => {
-    const reportId = document.getElementById('report__id');
+    const reportId = document.getElementById('report__id') as unknown as HTMLInputElement;
     formFetch(String(reportId!.value));
     reportId!.value = '' as any;
   }
 
   const pasteId = () => {
-    const reportId = document.getElementById('report__id');
+    const reportId = document.getElementById('report__id') as unknown as HTMLInputElement;
     reportId!.value = editReport as any ;
   }
 

@@ -1,8 +1,15 @@
 import * as React from 'react';
 import { useEffect } from 'react';
+import { IReport } from '../Utils/interfaces';
 import './SearchTags.css'
 
-const SearchTags = ({form, customTagHandler}) => {
+
+interface SearchTagsProps {
+  form: IReport | undefined,
+  customTagHandler: (event: {preventDefault : () => void}) => void,
+}
+
+const SearchTags : React.FC<SearchTagsProps> = ({form, customTagHandler}) => {
 
   //Event listener to remove tags
   useEffect( () => {
