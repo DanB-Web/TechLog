@@ -36,8 +36,8 @@ const SearchBar : React.FC<SearchBarProps> = ({ searchTagHandler }) => {
         ></input>
       <button
         className="searchbar__submit-btn"
-        onClick={() => { console.log('I\'m being clicked, and the input is: ', searchTerm);
-          searchTagHandler(searchTerm); 
+        onClick={() => {
+          searchTagHandler(searchTerm);
           clearInput();}}
       >ADD TAG</button>
     </div>
