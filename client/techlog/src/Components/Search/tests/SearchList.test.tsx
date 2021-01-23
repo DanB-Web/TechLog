@@ -1,6 +1,5 @@
 import React from 'react'
 import { render , screen, fireEvent} from '@testing-library/react';
-import SearchTags from '../SearchTags';
 import {IReport} from '../../../Utils/interfaces';
 import rest from '../../../Utils/rest';
 import SearchList from '../SearchList';
@@ -36,7 +35,7 @@ describe('SearchList Tests', () => {
   });
 
   it('Should show the report if filtered by correct tag', async () => {
-    const { getByTestId, getByRole, getByText } = render(<SearchList admin={true} reportId={(id: string) => {}} />)
+    const { getByRole, getByText } = render(<SearchList admin={true} reportId={(id: string) => {}} />)
     await screen.findByText(/Mocked report/)
     fireEvent.change(getByRole('textbox'), {target: {value: 'testTag'}});
     getByText(/ADD TAG/).click();
@@ -44,7 +43,7 @@ describe('SearchList Tests', () => {
   });
 
   it('Should show the report if filtered by incorrect tag', async () => {
-    const { getByTestId, getByRole, getByText } = render(<SearchList admin={true} reportId={(id: string) => {}} />)
+    const { getByRole, getByText } = render(<SearchList admin={true} reportId={(id: string) => {}} />)
     await screen.findByText(/Mocked report/)
     fireEvent.change(getByRole('textbox'), {target: {value: 'badTag_incorrect'}});
     getByText(/ADD TAG/).click();
