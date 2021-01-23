@@ -7,12 +7,25 @@ import * as rest from '../Utils/rest';
 
 import Image from './Image';
 
-const Modal = ({admin, id, title, tags, description, steps, images, reportId, toggleModal, callReports}) => {
+interface ModalProps {
+  admin: boolean,
+  id: string,
+  title: string,
+  tags: string[],
+  description: string,
+  steps: string[],
+  images: string[] | undefined,
+  reportId: (id: string) => void,
+  toggleModal: () => void,
+  callReports: () => void
+}
+
+const Modal : React.FC<ModalProps> = ({admin, id, title, tags, description, steps, images, reportId, toggleModal, callReports}) => {
 
   const deleteReport = () => {
     rest.deleteReport(id);
     callReports();
-    toggleModal(); 
+    toggleModal();
   }
 
   const closeModal =() => {
@@ -20,8 +33,8 @@ const Modal = ({admin, id, title, tags, description, steps, images, reportId, to
   }
 
   const copyToClipboard =() => {
-    const idInput = document.querySelector('.modal__report-id').textContent;
-    reportId(idInput);
+    const idInput = document.querySelector('.modal__report-id')!.textContent;
+    reportId(idInput as string);
   }
 
   return (
@@ -40,7 +53,7 @@ const Modal = ({admin, id, title, tags, description, steps, images, reportId, to
         <label>Tags</label>
         <ul>{tags.map((tag, index) => <li key={index}>#{tag}</li>)}</ul>
       </div>
-     
+
       <div className="modal__main-body">
         <label>Description</label>
         <p>{description}</p>
@@ -48,7 +61,7 @@ const Modal = ({admin, id, title, tags, description, steps, images, reportId, to
         <ul>{steps.map((step, index) => <li key={index}>&bull; {step}</li>)}</ul>
       </div>
 
-      {images.length ? 
+      {(images && images.length) ?
       <div className="modal__image-container">
 
         <label>Images</label>
@@ -59,17 +72,17 @@ const Modal = ({admin, id, title, tags, description, steps, images, reportId, to
               image = {image}
           />)}
         </div>
-      </div> : null} 
+      </div> : null}
 
       <div className="modal__buttons">
         <button onClick={closeModal}>CLOSE</button>
         {admin &&
-          <button onClick={deleteReport}>DELETE</button> 
+          <button onClick={deleteReport}>DELETE</button>
         }
       </div>
     </div>
     </Fragment>
-  ) 
+  )
 }
 
 export default Modal;

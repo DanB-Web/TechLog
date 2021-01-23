@@ -7,14 +7,26 @@ import { modalAnimationIn } from '../../Utils/animations';
 import SearchItemTag from './SearchItemTag';
 import Backdrop from '../../Modal/Backdrop';
 
+interface SearchItemProps {
+  admin: boolean,
+  id: string,
+  title: string,
+  tags: string[],
+  searchTags: string[],
+  description: string,
+  steps: string[],
+  images: string[] | undefined,
+  reportId: (id: string) => void,
+  callReports: () => void
+}
 
-const SearchItem = ( {admin, id, title, tags, searchTags, description, steps, images, reportId, callReports} ) => {
+const SearchItem : React.FC<SearchItemProps> = ( {admin, id, title, tags, searchTags, description, steps, images, reportId, callReports} ) => {
 
   const [viewModal, setViewModal ] = useState(false);
 
   const checkTags = () => {
     let flag = true;
-    searchTags.forEach(searchTag => {
+    searchTags.forEach((searchTag) => {
       if (!tags.includes(searchTag)) flag = false;
     })
     return flag;
@@ -24,7 +36,7 @@ const SearchItem = ( {admin, id, title, tags, searchTags, description, steps, im
   useEffect( () => {
     if (viewModal === true) {
       modalAnimationIn();
-    } 
+    }
   }, [viewModal]);
 
   const toggleModal = () => {
@@ -38,14 +50,14 @@ const SearchItem = ( {admin, id, title, tags, searchTags, description, steps, im
   if (viewModal) {
     return <Backdrop
       admin={admin}
-      id={id} 
+      id={id}
       title={title}
       tags={tags}
       description={description}
       steps={steps}
       images={images}
       reportId={reportId}
-      toggleModal={toggleModal}  
+      toggleModal={toggleModal}
       callReports={callReports}
       />
   }
@@ -54,7 +66,7 @@ const SearchItem = ( {admin, id, title, tags, searchTags, description, steps, im
     <div className="searchitem__container">
       <h3>{title}</h3>
       <ul>
-        {tags.map((tag, index) => <SearchItemTag key={index} tag={tag}/>)}
+        {tags.map((tag: string, index: string | number | null | undefined) => <SearchItemTag key={index} tag={tag}/>)}
       </ul>
       <div className="searchitem__container__description">
         <p>{`${description.substring(0,100)}...`}</p>

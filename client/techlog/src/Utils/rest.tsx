@@ -1,16 +1,10 @@
+import {IReport} from './interfaces'
+
 const BASE_URL = 'http://localhost:3002/';
 
 const cloudName = 'techlog-cloud-key';
 const PIC_URL = `https://api.cloudinary.com/v1_1/${cloudName}/`
 
-interface IReport {
-  _id?: string,
-  title: string,
-  tags: string[],
-  description: string,
-  steps: string[],
-  images?: string[]
-}
 
 export const getReports = async () : Promise<IReport[] | undefined>  => {
 
@@ -18,7 +12,7 @@ export const getReports = async () : Promise<IReport[] | undefined>  => {
     const dbCall = await fetch(BASE_URL + 'allreports')
       .then(response => response.json());
     return dbCall
-    
+
   } catch (error) {
     console.log('Fetch error', error)
   }

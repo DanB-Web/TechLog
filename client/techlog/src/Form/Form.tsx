@@ -1,23 +1,24 @@
-import * as React from 'react';
+import React from 'react';
 import { useState, useEffect, FC } from 'react';
 import { withRouter, useLocation, RouteComponentProps } from 'react-router-dom';
 
 import { formAnimations } from '../Utils/animations';
+import { IReport } from '../Utils/interfaces';
 
 import SearchTags from './SearchTags';
 
 import './Form.css';
 
-interface IForm {
-  title: string,
-  description: string,
-  steps: string[]
-}
+// interface IForm {
+//   title: string,
+//   description: string,
+//   steps: string[]
+// }
 
 interface FormProps {
-  formSubmit : (title:string, searchTags:string[], description:string, steps:string[], pics:Element[]) => void,
+  formSubmit : (title:string, searchTags:string[], description:string, steps:string[], pics:HTMLInputElement[]) => void,
   formPatch: (title:string, searchTags:string[], description:string, steps:string[]) => void,
-  form?: IForm
+  form?: IReport
 }
 
 //Note formSubmit comes from NewReport.js, and formPatch from EditReport.js
@@ -31,12 +32,12 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
     const formHandler = async (event: { preventDefault: () => void; }) => {
 
       event.preventDefault();
-      const title = String(document.getElementById('report__title__input')!.value);
+      const title = String((document.getElementById('report__title__input') as unknown as HTMLInputElement)!.value);
       const searchTags = tagsHandler();
-      const description = String(document.getElementById('report__description__input')!.value);
+      const description = String((document.getElementById('report__description__input') as unknown as HTMLInputElement)!.value);
       const steps = stepsHandler();
-      const pics: Element[] = [];
-      document.querySelectorAll('.pics').forEach(el => pics.push(el));
+      const pics: HTMLInputElement[] = [];
+      document.querySelectorAll('.pics').forEach(el => pics.push(el as any));
 
       //Baisc form validation
       if (title === '' || searchTags.length === 0 || description === '') {
@@ -65,8 +66,8 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
       const checkBoxes = document.querySelectorAll('.search-tag__checkbox');
       console.log(checkBoxes);
       checkBoxes.forEach(checkbox => {
-        if (checkbox.checked)
-          searchTags.push(String(checkbox.value));
+        if ((checkbox as unknown as HTMLInputElement).checked)
+          searchTags.push(String((checkbox as unknown as HTMLInputElement).value));
         }
       );
 
@@ -84,7 +85,7 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
     //Appends custom tags to DOM and updates state
     const customTagHandler = (event: { preventDefault: () => void; }) => {
       event.preventDefault();
-      const customTag : string = String(document.getElementById('custom__tag__input')!.value);
+      const customTag : string = String((document.getElementById('custom__tag__input') as unknown as HTMLInputElement).value);
       if (!customTag) return;
       //Set tag state
       const customTagsCopy : string[]= [...customTags];
@@ -94,20 +95,20 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
       const newTag = document.createElement('li');
       newTag.textContent = `#${customTag}`;
       document.getElementById('custom__tag__hook')!.appendChild(newTag);
-      document.getElementById('custom__tag__input')!.value = '' as any;
+      (document.getElementById('custom__tag__input')! as unknown as HTMLInputElement).value = '' as any;
     }
 
     //Add steps to DOM and updates state
     const addStepHandler = (event: any) => {
       event.preventDefault();
-      const customStep : string = String(document.getElementById('add__step')!.value);
+      const customStep : string = String((document.getElementById('add__step')! as unknown as HTMLInputElement).value);
       if (customStep === '') return;
       const stepsHook = document.getElementById('report__steps__hook');
       const newStep = document.createElement('li');
       newStep.classList.add("report__steps-li");
       newStep.textContent = customStep;
       stepsHook!.appendChild(newStep);
-      document.getElementById('add__step')!.value = '' as any;
+      (document.getElementById('add__step')! as unknown as HTMLInputElement).value = '' as any;
     }
 
     const stepsHandler = () => {

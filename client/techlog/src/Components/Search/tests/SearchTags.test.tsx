@@ -1,6 +1,6 @@
 import React from 'react'
 import { render , screen} from '@testing-library/react';
-import SearchTags from './SearchTags';
+import SearchTags from '../SearchTags';
 
 describe('SearchTags Tests', () => {
   it('Should render the search tag', async () => {

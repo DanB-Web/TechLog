@@ -2,7 +2,11 @@ import React from 'react';
 
 import './SearchItemTag.css';
 
-const SearchItemTag = ({tag}) => {
+interface Tag {
+  tag: string
+}
+
+const SearchItemTag: React.FC<Tag>= ({tag}) => {
 
   return (
     <li className="searchitem__tag__li">#{tag}</li>
