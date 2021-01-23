@@ -1,12 +1,10 @@
-import { render, cleanup } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import Image from '../Image'
 
 const src = 'test.jpg';
 
 describe('Image component tests', () => {
-
-  afterEach(cleanup);
 
   it('should render Image component', () => {
     const {getByRole} =  render(<Image image={src}/>);
