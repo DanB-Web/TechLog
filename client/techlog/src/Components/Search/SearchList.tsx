@@ -10,7 +10,7 @@ import SearchBar from './SearchBar';
 import SearchTags from './SearchTags';
 import SearchItem from './SearchItem';
 
-import * as rest from '../../Utils/rest';
+import rest from '../../Utils/rest';
 
 interface SearchListProps {
   admin: boolean,
@@ -30,6 +30,7 @@ const SearchList :React.FC<SearchListProps> = ({ admin, reportId }) => {
   //Call for reports
   const callReports = async () => {
     const dbCall : IReport[] | undefined = await rest.getReports();
+    console.log('dbCall', dbCall);
     if (dbCall) setReports(dbCall);
     listItemAnimation();
   }
@@ -52,6 +53,7 @@ const SearchList :React.FC<SearchListProps> = ({ admin, reportId }) => {
     <div className="searchlist__container">
 
       <SearchBar
+        data-testid="search-bar"
         searchTagHandler={searchTagHandler}
       />
 
@@ -70,6 +72,7 @@ const SearchList :React.FC<SearchListProps> = ({ admin, reportId }) => {
         {reports.length !== 0 ?
         reports.map((report, index) => <SearchItem
           key={index}
+          data-testid={`report-item-${index}`}
           admin={admin}
           id={report._id ? report._id  : ''}
           title={report.title}

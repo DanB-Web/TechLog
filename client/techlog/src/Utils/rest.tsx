@@ -101,3 +101,11 @@ export const deleteReport = async (id: string) : Promise<void>  => {
   }).catch(err => console.log('Fetch error', err))
 }
 
+export default {
+  getReports,
+  getReport,
+  postReport,
+  uploadPics,
+  deleteReport,
+  editReport
+}
