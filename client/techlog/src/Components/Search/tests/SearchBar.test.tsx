@@ -2,21 +2,34 @@ import React from 'react'
 import { render , screen, fireEvent} from '@testing-library/react';
 import SearchBar from '../SearchBar';
 
-describe('SearchTags Tests', () => {
-  it('Should render the search item tag', async () => {  
-    const searchTagHandler = jest.fn()
+describe('SearchBar Tests', () => {
+  it('Should allow user to add tags to search for', async () => {  
+    const searchTagHandler = jest.fn((arg:string) => {});
 
     const {getByRole} = render(<SearchBar searchTagHandler={searchTagHandler}/>);
-
     expect(await screen.findByText(/ADD TAG/)).toBeInTheDocument();
 
-    getByRole('textbox').value = 'testTag' as any;
-    // fireEvent(getByRole('textbox'), new InputEvent('input', {data: 'testTag'}));
-    await screen.findByText(/testTag/)
+    fireEvent.change(getByRole('textbox'), {target: {value: 'testTag'}})
     expect(getByRole('textbox').value).toBe('testTag');
 
+    // simulate ADD TAG button click
     getByRole('button').click();
     expect(searchTagHandler).toHaveBeenCalledTimes(1);
+    expect(searchTagHandler).toHaveBeenCalledWith('testTag');
+    expect(getByRole('textbox').value).toBe('');
+
+    fireEvent.change(getByRole('textbox'), {target: {value: 'testTag'}})
+    expect(getByRole('textbox').value).toBe('testTag');
+
+    // simulate enter key
+    fireEvent.keyDown(getByRole('textbox'), 
+      {  
+        key: "Enter",
+        code: "Enter",
+        keyCode: 13,
+        charCode: 13
+      })
+    expect(searchTagHandler).toHaveBeenCalledTimes(2);
     expect(searchTagHandler).toHaveBeenCalledWith('testTag');
     expect(getByRole('textbox').value).toBe('');
 

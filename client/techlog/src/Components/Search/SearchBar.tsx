@@ -31,12 +31,14 @@ const SearchBar : React.FC<SearchBarProps> = ({ searchTagHandler }) => {
         className="searchbar__input"
         type="text"
         onChange={event => setSearchTerm(event.target.value)}
+        value={searchTerm}
         onKeyDown ={event => enterHandler(event.keyCode)}
         ></input>
       <button
         className="searchbar__submit-btn"
         onClick={() => { console.log('I\'m being clicked, and the input is: ', searchTerm);
-          searchTagHandler(searchTerm); clearInput();}}
+          searchTagHandler(searchTerm); 
+          clearInput();}}
       >ADD TAG</button>
     </div>
   )
