@@ -44,7 +44,6 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
         alert('Missing fields!');
         return;
       }
-
       //Check what route currently on - if new, formSubmit, and if edit, formPatch
       if (location.pathname === '/new') await formSubmit(title, searchTags, description, steps, pics);
       else if (location.pathname === '/edit') await formPatch(title, searchTags, description, steps);
@@ -64,7 +63,6 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
 
       //get all populated checkboxes
       const checkBoxes = document.querySelectorAll('.search-tag__checkbox');
-      console.log(checkBoxes);
       checkBoxes.forEach(checkbox => {
         if ((checkbox as unknown as HTMLInputElement).checked)
           searchTags.push(String((checkbox as unknown as HTMLInputElement).value));
@@ -75,7 +73,6 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
       const renderedTagLI = document.querySelectorAll('.search-tag__custom');
       const renderedTags: string[] = [];
       renderedTagLI.forEach(value => renderedTags.push(value.innerHTML.substring(1)));
-      console.log(searchTags, customTagsCopy, renderedTags);
       //merge all tags
       searchTags = [...searchTags, ...customTagsCopy, ...renderedTags];
 
@@ -140,6 +137,7 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
           <input id="report__title__input"
                  name="title"
                  type="text"
+                 data-testid="title"
                  defaultValue={form ? form.title : ''}>
           </input>
       </div>
@@ -151,17 +149,17 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
 
       <div className="report__description">
         <label>Description</label>
-        <textarea id="report__description__input" rows={10} cols={30} defaultValue={form ? form.description : ''}></textarea>
+        <textarea id="report__description__input" rows={10} cols={30} defaultValue={form ? form.description : ''} data-testid="description"></textarea>
       </div>
 
       <div className="report__steps">
           <label>Steps</label>
           <div className="report__steps__input">
-            <input id="add__step" type="text"></input>
-            <button onClick={addStepHandler}>ADD STEP</button>
+            <input id="add__step" type="text"  data-testid="step-input"></input>
+            <button onClick={addStepHandler}  data-testid="add-step">ADD STEP</button>
           </div>
           <ul id="report__steps__hook">{form && form.steps.map((step, index) =>
-          <li key={index} className="report__steps-li">{step}</li>)}</ul>
+          <li key={index}  data-testid={`step-${index}`} className="report__steps-li">{step}</li>)}</ul>
       </div>
 
       {location.pathname === '/new' &&
@@ -172,7 +170,7 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
             <input type="file" className="pics" accept='.png, .jpg, .jpeg'></input>
       </div>}
 
-      <input className="report__submit__btn" type="submit" value="SUBMIT"/>
+      <input className="report__submit__btn" type="submit" value="SUBMIT" data-testid="submit-form"/>
 
     </form>
   )

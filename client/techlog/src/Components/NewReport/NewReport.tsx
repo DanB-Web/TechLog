@@ -1,6 +1,6 @@
 import './NewReport.css';
 
-import * as rest from '../../Utils/rest';
+import rest from '../../Utils/rest';
 
 import Form from '../../Form/Form'
 
