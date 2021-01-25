@@ -3,7 +3,7 @@ import {model, Schema, Document } from 'mongoose';
 export interface IReport {
   _id?: string,
   title?: string,
-  description?: string,
+  description: string,
   tags?: string[],
   steps?: string[],
   images?: string[],

@@ -2,7 +2,7 @@ import { Response , Request} from 'express';
 import { IReport } from 'models/reports.models/reports.schema';
 import * as Reports from '../models/reports.models/reports.model';
 
- export const allReports = async (_ : any, res : Response) : Promise<void> => {
+ export const allReports = async (_ : Request, res : Response) : Promise<void> => {
   try {
     const reports = await Reports.allReports();
     res.status(200).send(reports);
