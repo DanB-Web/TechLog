@@ -20,7 +20,6 @@ export const getReports = async () : Promise<IReport[] | undefined>  => {
 }
 
 export const getReport = async (id: string ): Promise<IReport | undefined> => {
-
   try {
     let report = await fetch(BASE_URL + `getreport/${id}`)
       .then(response => response.json());
@@ -101,7 +100,7 @@ export const deleteReport = async (id: string) : Promise<void>  => {
   }).catch(err => console.log('Fetch error', err))
 }
 
-export default {
+const rest = {
   getReports,
   getReport,
   postReport,
@@ -109,3 +108,4 @@ export default {
   deleteReport,
   editReport
 }
+export default rest;
