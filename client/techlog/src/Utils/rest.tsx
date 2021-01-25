@@ -9,33 +9,29 @@ const PIC_URL = `https://api.cloudinary.com/v1_1/${cloudName}/`
 export const getReports = async () : Promise<IReport[] | undefined>  => {
 
   try {
-    const dbCall = await fetch(BASE_URL + 'allreports')
-      .then(response => response.json());
-    return dbCall
-
+    const response = await fetch(BASE_URL + 'allreports')
+    return await response.json();
   } catch (error) {
-    console.log('Fetch error', error)
+    if(process.env.NODE_ENV !== 'test') console.log('Fetch error', error)
   }
   return;
 }
 
 export const getReport = async (id: string ): Promise<IReport | undefined> => {
   try {
-    let report = await fetch(BASE_URL + `getreport/${id}`)
-      .then(response => response.json());
-    return report;
+    const response = await fetch(BASE_URL + `getreport/${id}`);
+    return await response.json();
 
   } catch (error) {
-    console.log('Fetch error', error);
+    if(process.env.NODE_ENV !== 'test') console.log('Fetch error', error);
   }
   return;
 }
 
 export const postReport = async (title: string, searchTags: string[], description: string, steps: string[], filterPics: HTMLInputElement[]): Promise<void> => {
-
-    //Format + upload pics if required
-    let picsUrls : string[] = await uploadPics(filterPics);
-
+  //Format + upload pics if required
+  let picsUrls : string[] = await uploadPics(filterPics);
+  try {
     await fetch(BASE_URL + 'postreport', {
     method: 'POST',
     headers: {
@@ -47,8 +43,10 @@ export const postReport = async (title: string, searchTags: string[], descriptio
       description: description,
       steps: steps,
       images: picsUrls
-    })
-  }).catch(err => console.log('Fetch error (SERVER)', err));
+    })});
+  } catch (error) {
+    if(process.env.NODE_ENV !== 'test')  console.log('Fetch error (SERVER)', error)
+  }
 }
 
 export const uploadPics = async (filterPics : HTMLInputElement[]) : Promise<string[]> => {
@@ -56,48 +54,58 @@ export const uploadPics = async (filterPics : HTMLInputElement[]) : Promise<stri
   let picsUrls : string[] = [];
 
   if (filterPics.length > 0) {
-
     //Config pics before fetch - async doesn't work inside forEach...
     for (const pic of filterPics) {
-
       const formData = new FormData();
       formData.append('file', pic.files![0]);
       formData.append('upload_preset', 'ppgbubn6');
 
-      await fetch(PIC_URL + 'upload', {
-        method: 'POST',
-        body: formData,
-      }).then(response => response.json())
-        .then(data => picsUrls.push(data.url))
-        .catch(err => console.log('Fetch error (CLOUDINARY)', err))
+      try {
+        const res = await fetch(PIC_URL + 'upload', {
+          method: 'POST',
+          body: formData,
+        })
+        const data = await res.json();
+        picsUrls.push(data.url)
+        return picsUrls;
+      } catch (error) {
+        if(process.env.NODE_ENV !== 'test') console.log('Fetch error (CLOUDINARY)', error)
       }
-      return picsUrls;
+    }
   }
-    return [];
+  return [];
 }
 
 export const editReport = async (formCopy: IReport) : Promise<void> => {
   const { _id, title, tags, description, steps } = formCopy;
 
-  await fetch(BASE_URL + 'editreport', {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      _id: _id,
-      title: title,
-      tags: tags,
-      description: description,
-      steps: steps
+  try  {
+    await fetch(BASE_URL + 'editreport', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        _id: _id,
+        title: title,
+        tags: tags,
+        description: description,
+        steps: steps
+      })
     })
-  }).catch(err => console.log('Fetch error', err));
+  } catch (err) {
+    if(process.env.NODE_ENV !== 'test') console.log('Fetch error', err)
+  }
 }
 
 export const deleteReport = async (id: string) : Promise<void>  => {
-  await fetch(BASE_URL + `deletereport/${id}`, {
-    method: 'DELETE'
-  }).catch(err => console.log('Fetch error', err))
+  try {
+    await fetch(BASE_URL + `deletereport/${id}`, {
+      method: 'DELETE'
+    })
+  } catch (err) {
+    if(process.env.NODE_ENV !== 'test') console.log('Fetch error', err)
+  }
 }
 
 const rest = {
