@@ -42,7 +42,7 @@ describe('SearchTags Tests', () => {
     
   })
 
-  it('Should take user to Edit page on link press', async () => {
+  it('Should take user to the Edit page on link press', async () => {
     const { getByTestId } = render(
       <MemoryRouter>
         <Authorised/>
@@ -54,18 +54,7 @@ describe('SearchTags Tests', () => {
 
   })
 
-  it('Should take user to New page on link press', async () => {
-    const { getByTestId } = render(
-      <MemoryRouter>
-        <Authorised/>
-      </MemoryRouter>
-    );
-    const newButton = getByTestId('new-button')
-    fireEvent.click(newButton)
-    await screen.findByText(/Report Title/)
-  })
-
-  it('Should take user to New page on link press', async () => {
+  it('Should take user to the Logout page on link press', async () => {
     const { getByTestId } = render(
       <MemoryRouter>
         <Authorised/>
@@ -74,5 +63,16 @@ describe('SearchTags Tests', () => {
     const logoutButton = getByTestId('logout-button')
     fireEvent.click(logoutButton)
     await screen.findByText(/Please log in.../)
+  })
+
+  it('Should take user to Search page on link press', async () => {
+    const { getByTestId } = render(
+      <MemoryRouter>
+        <Authorised/>
+      </MemoryRouter>
+    );
+    const searchButton = getByTestId('search-button')
+    fireEvent.click(searchButton)
+    await screen.findByText(/ADD TAG/)
   })
 })
