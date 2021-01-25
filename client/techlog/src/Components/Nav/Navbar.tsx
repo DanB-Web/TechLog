@@ -22,11 +22,11 @@ const Navbar: React.FC<NavBarProps> = ({admin, logout, mode, authorised, toggleM
       </div>
   
       {authorised && 
-        <div className="navbar__links">
-          <Link to='/search'>Search</Link>
-          <Link to='/new'>New</Link>
-          {admin ? <Link to='/edit'>Edit</Link> : null}
-          <Link to="/logout" onClick={logout}>Logout</Link>
+        <div className="navbar__links" >
+          <Link to='/search' data-testid="search-button">Search</Link>
+          <Link to='/new' data-testid="new-button">New</Link>
+          {admin ? <Link to='/edit' data-testid="edit-button">Edit</Link> : null}
+          <Link to="/logout" onClick={logout} data-testid="logout-button">Logout</Link>
           <div className="mode__div">
             {mode === 'light' ? <i className="fas fa-moon"></i> : <i className="fas fa-sun"></i>}
             <button className="navbar__mode-switch" onClick={toggleMode}>X</button>
