@@ -21,8 +21,9 @@ const GetForm = ({ editReport, formFetch }) => {
         <h3>REPORT ID:</h3>
         <input id="report__id" name="report__id" type="text"></input>
         <button onClick={getReport}>FIND REPORT</button>
-        {editReport && 
-          <button onClick={pasteId}>PASTE ID</button>
+        {(editReport !== 0) ? 
+          <button onClick={pasteId}>PASTE ID</button> :
+          null
         }
       </div>
     </div>

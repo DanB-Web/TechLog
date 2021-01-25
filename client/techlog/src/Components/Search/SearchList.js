@@ -10,7 +10,7 @@ import SearchItem from './SearchItem';
 
 import rest from '../../Utils/rest';
 
-const SearchList = ({ admin, reportId }) => {
+const SearchList = ({ admin, holdReportId }) => {
 
   const [reports, setReports] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
@@ -51,31 +51,31 @@ const SearchList = ({ admin, reportId }) => {
 
       <ul 
         className="searchlist__searchtags">
-        {searchTags.length !== 0 &&
-        searchTags.map((tag, index) => <SearchTags 
-          key={index}
-          tag={tag}
-          deleteTagHandler={() => deleteTagHandler(tag)}  
-        />)}
+        { (searchTags && searchTags.length !== 0) ?
+            searchTags.map((tag, index) => (
+              <SearchTags 
+              key={index}
+              tag={tag}
+              deleteTagHandler={() => deleteTagHandler(tag)}  
+            />)
+          ) : null
+        }
       </ul>
       
+
       <ul
         className="searchlist__searchitems">
-        {reports.length !== 0 ?
-        reports.map((report, index) => <SearchItem
-          key={index}
-          admin={admin}
-          id={report._id}
-          title={report.title}
-          tags={report.tags}
-          description={report.description}
-          steps={report.steps}
-          images={report.images}
-          reportId={reportId}
-          searchTags={searchTags}
-          callReports={callReports}
-        />)
-        : null}
+        { (reports && reports.length !== 0) ? 
+          reports.map((report, index) => (<SearchItem
+            key={index}
+            admin={admin}
+            report={report}
+            holdReportId={holdReportId}
+            searchTags={searchTags}
+            callReports={callReports}
+          />)
+          ) : null
+        }
       </ul>
     </div>
   )

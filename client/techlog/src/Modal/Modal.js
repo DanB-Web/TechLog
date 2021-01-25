@@ -6,21 +6,22 @@ import rest from '../Utils/rest';
 
 import Image from './Image';
 
-const Modal = ({admin, id, title, tags, description, steps, images, reportId, toggleModal, callReports}) => {
+const Modal = ({admin, report, holdReportId, toggleModal, callReports}) => {
+  const { _id, tags, title, images, description, steps, reportId } = report;
 
   const deleteReport = () => {
-    rest.deleteReport(id);
+    rest.deleteReport(_id);
     callReports();
     toggleModal(); 
   }
 
-  const closeModal =() => {
+  const closeModal = () => {
     toggleModal();
   }
 
-  const copyToClipboard =() => {
+  const copyToClipboard = () => {
     const idInput = document.querySelector('.modal__report-id').textContent;
-    reportId(idInput);
+    holdReportId(idInput);
   }
 
   return (
@@ -31,7 +32,7 @@ const Modal = ({admin, id, title, tags, description, steps, images, reportId, to
 
       <div className="modal__id">
         <label>Report ID: </label>
-        <p className="modal__report-id">{id}</p>
+        <p className="modal__report-id">{reportId}</p>
         {admin && <button onClick={copyToClipboard}>COPY ID</button>}
       </div>
 

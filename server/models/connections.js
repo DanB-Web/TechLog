@@ -8,9 +8,9 @@ function makeNewConnection(uri, dbName) {
         useFindAndModify: false
     });
 
-    db.once('open', () => { console.log(`Successful connection to ${dbName}!`) });
+    // db.once('open', () => { console.log(`Successful connection to ${dbName}!`) });
 
-    db.on('error', console.error.bind(console, `${dbName} connection error...`));
+    // db.on('error', console.error.bind(console, `${dbName} connection error...`));
 
     return db;
 }

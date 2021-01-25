@@ -3,7 +3,12 @@ const { reportsConnection } = require('../connections');
 
 const Schema = mongoose.Schema;
 
-let report = new Schema({
+const Report = new Schema({
+
+  reportId: {
+    type: Number,
+    required: true
+  },
   
   title: {
     type: String,
@@ -32,6 +37,6 @@ let report = new Schema({
 
 }, { autoCreate: true }); 
 
-const reportModel = reportsConnection.model('report', report);
+const reportModel = reportsConnection.model('report', Report);
 
 module.exports = reportModel;

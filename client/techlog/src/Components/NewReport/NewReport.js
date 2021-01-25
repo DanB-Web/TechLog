@@ -10,6 +10,7 @@ const NewReport = () => {
 
   const formSubmit = async (title, searchTags, description, steps, pics) => {
     const filterPics = [...pics].filter(pic => pic.files.length !== 0);
+    console.log(title, searchTags, description, steps, pics);
     await rest.postReport(title, searchTags, description, steps, filterPics);
   }
 

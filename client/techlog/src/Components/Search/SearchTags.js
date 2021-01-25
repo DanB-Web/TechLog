@@ -6,8 +6,8 @@ const SearchTags = ({tag, deleteTagHandler}) => {
 
   return (
     <div className="searchtag__frag">
-      <li className="searchtag__tag">#{tag}</li>
-      <button className="searchtag__btn" onClick={deleteTagHandler}></button>
+      <li className="searchtag__tag" onClick={deleteTagHandler}>#{tag}</li>
+      {/* <button className="searchtag__btn" onClick={deleteTagHandler}></button> */}
     </div>
   )
 }

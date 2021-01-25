@@ -21,9 +21,9 @@ const Authorised = () => {
   const [mode, setMode] = useState('light');              //Light / dark mode
 
   //Variable + func to store report id for 'copy and paste' from /search to /edit 
-  const [editReport, setEditReport] = useState(null);
+  const [editReport, setEditReport] = useState(0);
 
-  const reportId = (id) => {
+  const holdReportId = (id) => {
     setEditReport(id);
   };
 
@@ -69,9 +69,9 @@ const Authorised = () => {
             authorised={authorised}
             toggleMode={toggleMode}
             admin={admin}
-            />
+          />
           <Switch>
-            <Route exact path = '/search' render={(props) => (<SearchList {...props} admin={admin} reportId={reportId}/>)}/>  
+            <Route exact path = '/search' render={(props) => (<SearchList {...props} admin={admin} holdReportId={holdReportId}/>)}/>  
             <Route exact path = '/new' component={NewReport}/>
             <Route exact path = '/edit' render={(props) => (<EditReport {...props} editReport={editReport}/>)}/>
             <Route exact path = '/logout' render={(props) => (<Login {...props} adminRights={adminRights}/>)}/>

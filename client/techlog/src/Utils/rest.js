@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3001/';
+const BASE_URL = 'http://localhost:3002/';
 
 const cloudName = 'dasb94yfb';
 const PIC_URL = `https://api.cloudinary.com/v1_1/${cloudName}/`
@@ -12,7 +12,7 @@ const getReports = async () => {
     .then(data => {dbCall = data})
     .catch(err => console.log('Fetch error', err));
 
-    return dbCall;
+  return dbCall;
 }
 
 const getReport = async (id) => {

@@ -1,19 +1,20 @@
 import React, { useEffect } from 'react';
 
-import './SearchTags.css'
+import './FormSearchTags.css'
 
-const SearchTags = ({form, customTagHandler}) => {
-
+const FormSearchTags = (props) => {
+  const {form, customTagHandler, handleSearchTagClick, handlePresetTagClick, tagInputRef} = props;
   //Event listener to remove tags
-  useEffect( () => {
-    document.querySelector('.report__search-tags').addEventListener('click', (event) => {
-      if (event.target.tagName === 'LI') event.target.parentNode.removeChild(event.target);
-    })},
-  []);
+  // useEffect(() => {
+  //   //TODO remove tag onclick
+  //   // document.querySelector('.report__search-tags').addEventListener('click', (event) => {
+  //   //   if (event.target.tagName === 'LI') event.target.parentNode.removeChild(event.target);
+  //   })},
+  // ,[]);
 
   return(
     <div className="report__search-tags">
-    {form ? null :
+    {form &&
 
     <div className="report__search-tags__fixed">
 
@@ -86,11 +87,23 @@ const SearchTags = ({form, customTagHandler}) => {
 
     <div className="report__search-tags__custom">
       {form ? <label>Tags</label> : <label>Custom Tags</label>}
-      <ul id="custom__tag__hook">{form && form.tags.map((tag, index) => 
-        <li key={index} className="search-tag__custom">#{tag}</li>)}
+      <ul id="custom__tag__hook">
+        {
+          //! tags !== searchTags
+          form.tags && form.tags.map((tag, index) => (
+            <li key={index} onClick={(e) => handlePresetTagClick(e, index)} className="search-tag__custom">#{tag}</li>)
+          )
+        }
+        {
+          form.searchTags && form.searchTags.map((tag, index) => (
+            <li key={index} onClick={(e) => handleSearchTagClick(e, index)} className="search-tag__custom">#{tag}</li>)
+          )
+        }
+        
       </ul>
       <div className="report__search-tags__input">
-        <input id="custom__tag__input" name="custom__tag" type="text"></input>
+        <label hidden={true} htmlFor="custom__tag__input">custom__tag__input</label>
+        <input ref={tagInputRef} id="custom__tag__input" name="custom__tag" type="text"></input>
         <button onClick={customTagHandler}>ADD TAG</button>
       </div>
     </div>
@@ -100,4 +113,4 @@ const SearchTags = ({form, customTagHandler}) => {
 
 }
 
-export default SearchTags;
+export default FormSearchTags;
