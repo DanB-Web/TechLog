@@ -7,7 +7,7 @@ interface ImageProps {
 }
 
 const Image : React.FC<ImageProps> = ({image}) =>
-    <img className="image__img" src={image} alt={image}/>
+    <img className="image__img" src={image} alt='Uploaded By User To Form'/>
 
 
 export default Image;
