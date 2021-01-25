@@ -20,7 +20,6 @@ export const getReports = async () : Promise<IReport[] | undefined>  => {
 }
 
 export const getReport = async (id: string ): Promise<IReport | undefined> => {
-  console.log('real API being called');
   try {
     let report = await fetch(BASE_URL + `getreport/${id}`)
       .then(response => response.json());
