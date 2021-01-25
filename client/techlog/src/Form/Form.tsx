@@ -49,7 +49,7 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
       else if (location.pathname === '/edit') await formPatch(title, searchTags, description, steps);
 
       //Reset tags state and redirect
-      setCustomTags([]);
+      //setCustomTags([]);
       history.push('/search');
     }
 
