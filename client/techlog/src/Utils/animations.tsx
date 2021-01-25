@@ -22,9 +22,10 @@ const modeAnimation = () => {
   gsap.from('.searchbar__container', 3, {opacity:0, x:1000, delay: 1, rotate:720, ease: 'back'});
 }
 
-export { 
-        modalAnimationIn, 
+const animations =  {
+        modalAnimationIn,
         listItemAnimation,
         formAnimations,
         modeAnimation
       };
+export default animations;

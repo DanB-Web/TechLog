@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react'
 import './SearchItem.css';
 
-import { modalAnimationIn } from '../../Utils/animations';
+import animations from '../../Utils/animations';
 
 import SearchItemTag from './SearchItemTag';
 import Backdrop from '../../Modal/Backdrop';
@@ -35,7 +35,7 @@ const SearchItem : React.FC<SearchItemProps> = ( {admin, id, title, tags, search
   //Animate modal on way in
   useEffect( () => {
     if (viewModal === true) {
-      modalAnimationIn();
+      animations.modalAnimationIn();
     }
   }, [viewModal]);
 

@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 
 import './Authorised.css';
 
-import { modeAnimation } from '../../Utils/animations';
+import animations from '../../Utils/animations';
 
 import Navbar from '../Nav/Navbar';
 import SearchList from '../Search/SearchList';
@@ -23,7 +23,6 @@ const Authorised = () => {
 
   //Variable + func to store report id for 'copy and paste' from /search to /edit
   const [editReport, setEditReport] = useState<string>('');
-
   const reportId = (id: string) => {
     setEditReport(id);
   };
@@ -42,7 +41,7 @@ const Authorised = () => {
 
   //Mode change
   const toggleMode = () => {
-    modeAnimation();
+    animations.modeAnimation();
     if (mode === 'light') {
       trans();
       setMode('dark');
