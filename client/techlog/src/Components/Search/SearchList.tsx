@@ -30,7 +30,6 @@ const SearchList :React.FC<SearchListProps> = ({ admin, reportId }) => {
   //Call for reports
   const callReports = async () => {
     const dbCall : IReport[] | undefined = await rest.getReports();
-    console.log('dbCall', dbCall);
     if (dbCall) setReports(dbCall);
     listItemAnimation();
   }

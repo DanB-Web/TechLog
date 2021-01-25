@@ -6,10 +6,7 @@ import SearchList from '../SearchList';
 
 jest.mock('../../../Utils/rest');
 
-rest.getReports = async () : Promise<IReport[]> => {
-  console.log("I'm being called");
-  
-  return await Promise.resolve(
+rest.getReports = async () : Promise<IReport[]> =>  await Promise.resolve(
     [{
      title: 'Mocked report',
      description: 'Mocked description',
@@ -18,7 +15,7 @@ rest.getReports = async () : Promise<IReport[]> => {
      images: ['pic1']
    }]
   );
-}
+
 
 describe('SearchList Tests', () => {
   it('Should render The Search List with a mock report', async () => {
