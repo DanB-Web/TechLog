@@ -26,3 +26,5 @@ export const reportUpdate : IReport = {
   steps: ['step1', 'step2'],
   images: ['http://img.png']
 }
+
+export const invalidId : string = '6005c760ca804d212d722dc5';

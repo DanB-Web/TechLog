@@ -44,7 +44,7 @@ describe('Routes', () => {
     it('Should return 404 if a non valid id is used', async () => {
       let response  = await request(server).get(`/getreport/invalid`);
       expect(response.status).equal(404);
-      response  = await request(server).get(`/getreport/6005c760ca804d212d722dc5`);
+      response  = await request(server).get(`/getreport/${mock.invalidId}`);
       expect(response.status).equal(404);
     });
 
@@ -97,7 +97,7 @@ describe('Routes', () => {
     });
 
     it('Should return 404 if a non valid id is used', async () => {
-      let response  = await request(server).delete(`/deletereport/6005c760ca804d212d722dc5`);
+      let response  = await request(server).delete(`/deletereport/${mock.invalidId}`);
       expect(response.status).equal(404);
     });
 

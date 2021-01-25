@@ -2,7 +2,7 @@ import { Response , Request} from 'express';
 import { IReport } from 'models/reports.models/reports.schema';
 import * as Reports from '../models/reports.models/reports.model';
 
- export const allReports = async (_ : any, res : Response) : Promise<void> => {
+ export const allReports = async (_ : Request, res : Response) : Promise<void> => {
   try {
     const reports = await Reports.allReports();
     res.status(200).send(reports);
@@ -37,7 +37,7 @@ export const newReport = async (req : Request, res : Response) : Promise<void> =
 export const editReport = async (req : Request, res : Response) => {
   try {
     const { _id, title, description, tags, steps } = req.body;
-    const data : IReport = {  title, description, tags, steps }
+    const data : IReport = { title, description, tags, steps }
     const reply = await Reports.editReport(_id, data);
     if (!reply) res.status(404).send('Report not found')
     else res.status(200).send(reply);

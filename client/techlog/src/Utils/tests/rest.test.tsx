@@ -4,8 +4,8 @@ import rest from '../rest';
 
 const mockAPI = jest.fn(() => Promise.reject());
 global.fetch = mockAPI;
-
-const baseURL = 'http://localhost:3002/'
+const baseURL = process.env.REACT_APP_BACKEND_URL;
+const PIC_URL = process.env.REACT_APP_CLOUDINARY_URL;
 
 const mockReport : IReport = {
   title: 'mock report',
@@ -53,12 +53,12 @@ describe('Rest API Tests', () => {
     })
     const mockFormData = new FormData();
     mockFormData.append('file', mockFile);
-    mockFormData.append('upload_preset', 'ppgbubn6');
+    mockFormData.append('upload_preset', process.env.REACT_APP_PRESET_KEY as string);
 
     await rest.uploadPics([mockFileInput as HTMLInputElement]);
     expect(mockAPI).toHaveBeenCalledTimes(1);
     expect(mockAPI).toHaveBeenCalledWith(
-      'https://api.cloudinary.com/v1_1/techlog-cloud-key/upload', {
+      PIC_URL, {
         method:'POST',
         body: mockFormData
       }
