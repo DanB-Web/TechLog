@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import './SearchList.css';
 
 import { IReport } from '../../Utils/interfaces';
-import { listItemAnimation } from '../../Utils/animations';
+import animations from '../../Utils/animations';
 
 import SearchBar from './SearchBar';
 import SearchTags from './SearchTags';
@@ -31,7 +31,7 @@ const SearchList :React.FC<SearchListProps> = ({ admin, reportId }) => {
   const callReports = async () => {
     const dbCall : IReport[] | undefined = await rest.getReports();
     if (dbCall) setReports(dbCall);
-    listItemAnimation();
+    animations.listItemAnimation();
   }
 
   //Add search tag

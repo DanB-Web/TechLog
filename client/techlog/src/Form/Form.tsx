@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect, FC } from 'react';
 import { withRouter, useLocation, RouteComponentProps } from 'react-router-dom';
 
-import { formAnimations } from '../Utils/animations';
+import animations from '../Utils/animations';
 import { IReport } from '../Utils/interfaces';
 
 import SearchTags from './SearchTags';
@@ -126,7 +126,7 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
 
     useEffect(()=>{
       //Run form animations on render
-      formAnimations();
+      animations.formAnimations();
     },[]);
 
   return (
