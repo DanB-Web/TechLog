@@ -1,0 +1,22 @@
+const mockReports = [ 
+  {
+    title: 'First Report',
+    description: 'test test test',
+    tags: ['tag1', 'tag2'],
+    steps: ['step1', 'step2'],
+    images: [],
+    reportId: 12345678,
+    _id: '2345'
+  },
+  {
+    title: 'Second Report',
+    description: 'test test test',
+    tags: ['tag3', 'tag4'],
+    steps: ['step3', 'step4'],
+    images: [],
+    reportId: 12345679,
+    _id: '2346'
+  },
+];
+
+export default mockReports;

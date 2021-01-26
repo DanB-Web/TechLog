@@ -1,18 +1,18 @@
-const { response } = require('express');
+// const { response } = require('express');
 
 const router = require('express').Router();
 const reports = require('./controllers/reports.controller');
 const authMiddleware = require('./middlewares/auth');
 
 //Reports routes
-router.get('/allreports', reports.allReports);
+router.get('/reports', reports.allReports);
 
-router.get('/getreport/:id', reports.getReport);
+router.get('/reports/:id', reports.getReport);
 
-router.post('/postreport', reports.newReport);
+router.post('/reports', reports.newReport);
 
-router.patch('/editreport', authMiddleware, reports.editReport);
+router.put('/reports', reports.editReport);
 
-router.delete('/deletereport/:id', authMiddleware, reports.deleteReport);
+router.delete('/reports/:id', authMiddleware, reports.deleteReport);
 
 module.exports = router;

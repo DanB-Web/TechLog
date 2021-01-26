@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3001/';
+const BASE_URL = 'http://localhost:3002/';
 
 const cloudName = 'dasb94yfb';
 const PIC_URL = `https://api.cloudinary.com/v1_1/${cloudName}/`
@@ -7,19 +7,19 @@ const getReports = async () => {
   
   let dbCall;
   
-  await fetch(BASE_URL + 'allreports')
+  await fetch(BASE_URL + 'reports')
     .then(response => response.json())
     .then(data => {dbCall = data})
     .catch(err => console.log('Fetch error', err));
 
-    return dbCall;
+  return dbCall;
 }
 
 const getReport = async (id) => {
 
   let dbCall;
 
-  await fetch(BASE_URL + `getreport/${id}`)
+  await fetch(BASE_URL + `reports/${id}`)
     .then(response => response.json())
     .then(data => {dbCall = data})
     .catch(err => console.log('Fetch error', err));
@@ -32,7 +32,7 @@ const postReport = async (title, searchTags, description, steps, filterPics) => 
     //Format + upload pics if required
     let picsUrls = await uploadPics(filterPics);
 
-    await fetch(BASE_URL + 'postreport', {
+    await fetch(BASE_URL + 'reports', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -73,15 +73,16 @@ const uploadPics = async (filterPics) => {
 }
 
 const editReport = async (formCopy) => {
-  const { _id, title, tags, description, steps } = formCopy;
+  const { _id, reportId, title, tags, description, steps } = formCopy;
 
-  await fetch(BASE_URL + 'editreport', {
-    method: 'PATCH',
+  await fetch(BASE_URL + 'reports', {
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       _id: _id,
+      reportId: reportId,
       title: title,
       tags: tags,
       description: description,
@@ -91,7 +92,7 @@ const editReport = async (formCopy) => {
 }
 
 const deleteReport = async (id) => {
-  await fetch(BASE_URL + `deletereport/${id}`, {
+  await fetch(BASE_URL + `reports/${id}`, {
     method: 'DELETE'
   }).catch(err => console.log('Fetch error', err))
 }

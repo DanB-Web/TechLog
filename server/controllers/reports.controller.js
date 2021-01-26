@@ -24,7 +24,6 @@ const getReport = async (req, res) => {
 const newReport = async (req, res) => {
   try {
     const { title, description, tags, steps, images } = req.body;
-    console.log('controller', images);
     const reply = await reports.newReport(title, description, tags, steps, images);
     res.status(201).send(reply);
   } catch (err) {
@@ -35,8 +34,8 @@ const newReport = async (req, res) => {
 
 const editReport = async (req, res) => {
   try {
-    const { _id, title, description, tags, steps, comments } = req.body;
-    const reply = await reports.editReport(_id, title, description, tags, steps, comments);
+    const { _id, title, description, tags, steps } = req.body;
+    const reply = await reports.editReport(_id, title, description, tags, steps);
     res.status(200).send(reply);     //Was using 204 but no res body :(
   } catch (err) {
     console.log('Edit report error', err);
