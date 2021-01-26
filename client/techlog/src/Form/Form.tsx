@@ -22,15 +22,15 @@ interface FormProps {
 }
 
 //Note formSubmit comes from NewReport.js, and formPatch from EditReport.js
+const initialState : IReport = {
+  title       :  '',
+  description :  '',
+  tags        :  [],
+  steps       :  []
+}
 const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, form, history } ) => {
-
-  const initialState : IReport = {
-    title : form ? form.title : '',
-    description : form ? form.description : '',
-    tags : form ? form.tags : [],
-    steps : form ? form.steps : []
-  }
-  const [formData, setFormData] = useState<IReport>(initialState)
+  
+  const [formData, setFormData] = useState<IReport>(form || initialState)
   const [step, setStep] = useState<string>('');
   const [tag, setTag] = useState<string>('');
   const location = useLocation();
@@ -54,12 +54,12 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
     const target = event.target as HTMLInputElement;
     const name = target.name;
     if (name === 'title' || name === 'description') {
-      setFormData(prevData => ({...prevData, [name]: target.value}))
+      setFormData({...formData, [name]: target.value})
     } else if ( target.type === 'checkbox') {
       target.checked ? addTag(target.value) : removeTag(target.value)
     } else if (name.startsWith('file')) {
       if (target.validity.valid && target.files) {
-        setFormData(prevData => ({...prevData, [name]: target.files![0]}))
+        setFormData({...formData, [name]: target.files![0]})
       }
     }
   }
@@ -73,12 +73,15 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
       alert('Missing fields!');
       return;
     }
+    
     const pics: File[] = ['file1', 'file2', 'file3'].map(filename => {
       if (formData[filename]) return formData[filename];
-    });
+    }).filter(x => x);
 
     //Check what route currently on - if new, formSubmit, and if edit, formPatch
-    if (location.pathname === '/new') await formSubmit(title, tags, description, steps, pics);
+    if (location.pathname === '/new') {
+      await formSubmit(title, tags, description, steps, pics);
+    }
     else if (location.pathname === '/edit') await formPatch(title, tags, description, steps);
     history.push('/search');
   }
@@ -104,7 +107,6 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
   }
 
   const removeStep = (idx: number) => {
-    console.log('REMOVE STEP??  ', idx);
     setFormData(prevState => {
       const steps = [...prevState.steps]
       steps.splice(idx,1);
@@ -146,7 +148,7 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
           id="report__description__input" 
           rows={10} cols={30} 
           name="description"
-          onChange={()=>{}}
+          onChange={() => {}}
           value={formData.description} 
           data-testid="description"
         />

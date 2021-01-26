@@ -1,4 +1,4 @@
-import { render, cleanup, screen } from '@testing-library/react';
+import { render, cleanup, screen, act } from '@testing-library/react';
 
 import rest from '../../Utils/rest';
 import Modal from '../Modal'
@@ -69,9 +69,9 @@ describe('Modal component tests', () => {
     expect(toggleModal).toHaveBeenCalledTimes(1);
   });
 
-  it('should trigger report delete', () => {
+  it('should trigger report delete', async () => {
     const { getByText} =  render(<Modal {...ModalProps}/>);
-    getByText(/DELETE/).click();
+    await getByText(/DELETE/).click();
 
     expect(deleteReport).toHaveBeenCalledTimes(1);
     expect(deleteReport).toHaveBeenCalledWith('1234');

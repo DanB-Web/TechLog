@@ -1,4 +1,3 @@
-import { render } from '@testing-library/react';
 import { IReport } from '../interfaces';
 import rest from '../rest';
 
@@ -14,7 +13,7 @@ const mockReport : IReport = {
   steps: ['steps'],
   images: []
 }
-const mockInputImages : HTMLInputElement[] = []
+const mockInputImages : File[] = []
 
 describe('Rest API Tests', () => {
 
@@ -41,21 +40,14 @@ describe('Rest API Tests', () => {
   });
 
   it('Should upload pictures to cloudinary account', async () => {
-    const {getByTitle} = render(<input type='file' title='mockFileInput'/>);
-    const mockFileInput = getByTitle('mockFileInput')
     const mockFile = new File(['(⌐□_□)'], 'mockFile.png', {
       type: 'image/png',
     });
-    Object.defineProperty(mockFileInput, 'files', {
-      value: [
-        mockFile
-      ]
-    })
     const mockFormData = new FormData();
     mockFormData.append('file', mockFile);
     mockFormData.append('upload_preset', process.env.REACT_APP_PRESET_KEY as string);
 
-    await rest.uploadPics([mockFileInput as HTMLInputElement]);
+    await rest.uploadPics([mockFile]);
     expect(mockAPI).toHaveBeenCalledTimes(1);
     expect(mockAPI).toHaveBeenCalledWith(
       PIC_URL, {

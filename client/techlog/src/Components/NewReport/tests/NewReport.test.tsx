@@ -1,7 +1,8 @@
-import { render, cleanup, fireEvent, waitFor } from '@testing-library/react';
+import { render, cleanup, fireEvent, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import NewReport from '../NewReport';
 import rest from '../../../Utils/rest';
+import userEvent from '@testing-library/user-event'
 
 jest.mock('../../../Utils/rest')
 
@@ -13,8 +14,8 @@ global.alert = mockAlert;
 
 const mockReport = {
   title : 'title',
-  searchTags: ['kyst'],
-  description: 'descrption',
+  searchTags: ['Kystdesign'],
+  description: 'description1234',
   steps: ['step'],
   filterPics : []
   }
@@ -41,25 +42,22 @@ describe('NewReport component tests', () => {
   });
 
   it('should submit a a new report', async () => {
-    const { getByTestId, getByDisplayValue } = render(
+    render(
       <MemoryRouter>
         <NewReport/>
       </MemoryRouter>
-     );
-
-     // SET TITLE
-    fireEvent.change(getByTestId('title') , {target : {value : mockReport.title}});
+    );
+    // SET TITLE
+    userEvent.type(screen.getByTestId('title') , mockReport.title);
     // ADD A TAG
-    getByDisplayValue('kyst').click()
+    screen.getByDisplayValue('Kystdesign').click();
     // SET DESCRIPTION
-    fireEvent.change(getByTestId('description') , {target : {value : mockReport.description}});
+    userEvent.type(screen.getByTestId('description') , mockReport.description);
     // SET A STEP
-    fireEvent.change(getByTestId('step-input') , {target : {value : mockReport.steps[0]}});
-    getByTestId('add-step').click();
+    userEvent.type(screen.getByTestId('step-input'), mockReport.steps[0]);
+    screen.getByTestId('add-step').click();
     // SUMBIT FORM
-     getByTestId('submit-form').click();
-    // wait until kyst is unckecked again to avoid warning
-    await waitFor(() => getByDisplayValue('kyst'));
+    screen.getByTestId('submit-form').click();
     expect(postReport).toHaveBeenCalledTimes(1);
     expect(postReport).toHaveBeenCalledWith(...Object.values(mockReport));
   });
