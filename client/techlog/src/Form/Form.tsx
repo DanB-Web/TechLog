@@ -16,7 +16,7 @@ import './Form.css';
 // }
 
 interface FormProps {
-  formSubmit : (title:string, searchTags:string[], description:string, steps:string[], pics:HTMLInputElement[]) => void,
+  formSubmit : (title:string, searchTags:string[], description:string, steps:string[], pics: File[]) => void,
   formPatch: (title:string, searchTags:string[], description:string, steps:string[]) => void,
   form?: IReport
 }
@@ -24,150 +24,159 @@ interface FormProps {
 //Note formSubmit comes from NewReport.js, and formPatch from EditReport.js
 const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, form, history } ) => {
 
-  const [customTags, setCustomTags] = useState<string[]>([]);
-
+  const initialState : IReport = {
+    title : form ? form.title : '',
+    description : form ? form.description : '',
+    tags : form ? form.tags : [],
+    steps : form ? form.steps : []
+  }
+  const [formData, setFormData] = useState<IReport>(initialState)
+  const [step, setStep] = useState<string>('');
+  const [tag, setTag] = useState<string>('');
   const location = useLocation();
 
-    //Form submit handler
-    const formHandler = async (event: { preventDefault: () => void; }) => {
+  const addTag = (tag: string) => {
+    setFormData(prevState => {
+      const tags = [...prevState.tags]
+      tags.push(tag);
+      return {...prevState, tags};
+    })
+  }
 
-      event.preventDefault();
-      const title = String((document.getElementById('report__title__input') as unknown as HTMLInputElement)!.value);
-      const searchTags = tagsHandler();
-      const description = String((document.getElementById('report__description__input') as unknown as HTMLInputElement)!.value);
-      const steps = stepsHandler();
-      const pics: HTMLInputElement[] = [];
-      document.querySelectorAll('.pics').forEach(el => pics.push(el as any));
+  const removeTag = (tag: string) => {
+    setFormData(prevState => {
+      const tags = prevState.tags.filter(t => t !== tag )
+      return {...prevState, tags};
+    })
+  }
 
-      //Baisc form validation
-      if (title === '' || searchTags.length === 0 || description === '') {
-        alert('Missing fields!');
-        return;
+  const handleFormChange = (event: React.FormEvent<HTMLFormElement>) => {
+    const target = event.target as HTMLInputElement;
+    const name = target.name;
+    if (name === 'title' || name === 'description') {
+      setFormData(prevData => ({...prevData, [name]: target.value}))
+    } else if ( target.type === 'checkbox') {
+      target.checked ? addTag(target.value) : removeTag(target.value)
+    } else if (name.startsWith('file')) {
+      if (target.validity.valid && target.files) {
+        setFormData(prevData => ({...prevData, [name]: target.files![0]}))
       }
-      //Check what route currently on - if new, formSubmit, and if edit, formPatch
-      if (location.pathname === '/new') await formSubmit(title, searchTags, description, steps, pics);
-      else if (location.pathname === '/edit') await formPatch(title, searchTags, description, steps);
-
-      //Reset tags state and redirect
-      //setCustomTags([]);
-      history.push('/search');
     }
+  }
 
-    //On form submit, merges checkbox tags and custom tags
-    const tagsHandler = () => {
-
-      let searchTags: string[] = [];
-
-      //Make copy of current tags state
-      const customTagsCopy = [...customTags];
-
-      //get all populated checkboxes
-      const checkBoxes = document.querySelectorAll('.search-tag__checkbox');
-      checkBoxes.forEach(checkbox => {
-        if ((checkbox as unknown as HTMLInputElement).checked)
-          searchTags.push(String((checkbox as unknown as HTMLInputElement).value));
-        }
-      );
-
-      //Get all rendered tags
-      const renderedTagLI = document.querySelectorAll('.search-tag__custom');
-      const renderedTags: string[] = [];
-      renderedTagLI.forEach(value => renderedTags.push(value.innerHTML.substring(1)));
-      //merge all tags
-      searchTags = [...searchTags, ...customTagsCopy, ...renderedTags];
-
-      return searchTags;
+  //Form submit handler
+  const formHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const {title, tags, description, steps} = formData;
+    //Baisc form validation
+    if (title === '' || tags.length === 0 || description === '') {
+      alert('Missing fields!');
+      return;
     }
+    const pics: File[] = ['file1', 'file2', 'file3'].map(filename => {
+      if (formData[filename]) return formData[filename];
+    });
 
-    //Appends custom tags to DOM and updates state
-    const customTagHandler = (event: { preventDefault: () => void; }) => {
-      event.preventDefault();
-      const customTag : string = String((document.getElementById('custom__tag__input') as unknown as HTMLInputElement).value);
-      if (!customTag) return;
-      //Set tag state
-      const customTagsCopy : string[]= [...customTags];
-      customTagsCopy.push(customTag);
-      setCustomTags(customTagsCopy);
-      //Append new tag to DOM
-      const newTag = document.createElement('li');
-      newTag.textContent = `#${customTag}`;
-      document.getElementById('custom__tag__hook')!.appendChild(newTag);
-      (document.getElementById('custom__tag__input')! as unknown as HTMLInputElement).value = '' as any;
+    //Check what route currently on - if new, formSubmit, and if edit, formPatch
+    if (location.pathname === '/new') await formSubmit(title, tags, description, steps, pics);
+    else if (location.pathname === '/edit') await formPatch(title, tags, description, steps);
+    history.push('/search');
+  }
+
+  //Appends custom tags to DOM and updates state
+  const customTagHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    addTag(tag);
+    setTag('');
+  }
+
+  //Add steps to DOM and updates state
+  const addStepHandler = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (step !== '') {
+      setFormData(prevState => {
+        const steps = [...prevState.steps]
+        steps.push(step);
+        return {...prevState, steps};
+      })
+      setStep('');
     }
+  }
 
-    //Add steps to DOM and updates state
-    const addStepHandler = (event: any) => {
-      event.preventDefault();
-      const customStep : string = String((document.getElementById('add__step')! as unknown as HTMLInputElement).value);
-      if (customStep === '') return;
-      const stepsHook = document.getElementById('report__steps__hook');
-      const newStep = document.createElement('li');
-      newStep.classList.add("report__steps-li");
-      newStep.textContent = customStep;
-      stepsHook!.appendChild(newStep);
-      (document.getElementById('add__step')! as unknown as HTMLInputElement).value = '' as any;
-    }
+  const removeStep = (idx: number) => {
+    console.log('REMOVE STEP??  ', idx);
+    setFormData(prevState => {
+      const steps = [...prevState.steps]
+      steps.splice(idx,1);
+      return {...prevState, steps};
+    })
+  }
 
-    const stepsHandler = () => {
-      const steps: string[] = [];
-      const stepsLi = document.querySelectorAll('.report__steps-li');
-      stepsLi.forEach(step => steps.push(step.innerHTML));
-      return steps;
-    }
-
-    //Event listener to remove steps from DOM
-    useEffect( () => {
-      document.querySelector('.report__steps')!.addEventListener('click', (event : any) => {
-        if (event.target.tagName === 'LI') {
-          event.target.parentNode.removeChild(event.target);
-        }
-      })},
-    []);
-
-    useEffect(()=>{
-      //Run form animations on render
-      animations.formAnimations();
-    },[]);
+  useEffect(()=>{
+    //Run form animations on render
+    animations.formAnimations();
+  },[]);
 
   return (
-    <form className="form__container" onSubmit={formHandler} spellCheck="false">
+    <form className="form__container" onSubmit={formHandler} onChange={handleFormChange} spellCheck="false">
 
       <div className="report__title">
           <label>Report Title</label>
-          <input id="report__title__input"
-                 name="title"
-                 type="text"
-                 data-testid="title"
-                 defaultValue={form ? form.title : ''}>
-          </input>
+          <input 
+            id="report__title__input"
+            name="title"
+            onChange={()=>{}}
+            type="text"
+            data-testid="title"
+            value={formData.title}
+          />
       </div>
 
       <SearchTags
-        form={form}
+        tag={tag}
+        setTag={setTag}
+        tags={formData.tags}
         customTagHandler={customTagHandler}
+        removeTag={removeTag}
       />
 
       <div className="report__description">
         <label>Description</label>
-        <textarea id="report__description__input" rows={10} cols={30} defaultValue={form ? form.description : ''} data-testid="description"></textarea>
+        <textarea 
+          id="report__description__input" 
+          rows={10} cols={30} 
+          name="description"
+          onChange={()=>{}}
+          value={formData.description} 
+          data-testid="description"
+        />
       </div>
 
       <div className="report__steps">
           <label>Steps</label>
           <div className="report__steps__input">
-            <input id="add__step" type="text"  data-testid="step-input"></input>
+            <input 
+              id="add__step" type="text"  
+              data-testid="step-input" value={step} 
+              onChange={(e : React.ChangeEvent<HTMLInputElement>) => setStep(e.target.value)}
+            />
             <button onClick={addStepHandler}  data-testid="add-step">ADD STEP</button>
           </div>
-          <ul id="report__steps__hook">{form && form.steps.map((step, index) =>
-          <li key={index}  data-testid={`step-${index}`} className="report__steps-li">{step}</li>)}</ul>
+          <ul id="report__steps__hook">
+            {formData.steps.map((step, index) =>
+              <li key={index} data-testid={`step-${index}`} className="report__steps-li" onClick={() => removeStep(index)}>
+                {step}
+              </li>)
+            }
+          </ul>
       </div>
 
       {location.pathname === '/new' &&
       <div className="report__uploads">
             <label>Upload Pictures</label>
-            <input type="file" className="pics" accept='.png, .jpg, .jpeg'></input>
-            <input type="file" className="pics" accept='.png, .jpg, .jpeg'></input>
-            <input type="file" className="pics" accept='.png, .jpg, .jpeg'></input>
+            <input type="file" className="pics" name='file1' accept='.png, .jpg, .jpeg'></input>
+            <input type="file" className="pics" name='file2' accept='.png, .jpg, .jpeg'></input>
+            <input type="file" className="pics" name='file3' accept='.png, .jpg, .jpeg'></input>
       </div>}
 
       <input className="report__submit__btn" type="submit" value="SUBMIT" data-testid="submit-form"/>

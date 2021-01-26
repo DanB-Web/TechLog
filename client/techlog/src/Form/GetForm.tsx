@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 
 import './GetForm.css';
 
@@ -9,22 +9,24 @@ interface GetFormProps {
 
 const GetForm : React.FC<GetFormProps> = ({ editReport, formFetch }) => {
 
-  const getReport = () => {
-    const reportId = document.getElementById('report__id') as unknown as HTMLInputElement;
-    formFetch(String(reportId!.value));
-    reportId!.value = '' as any;
+  const [input, setInput] = useState<string>('');
+
+  const handleInput = (event : React.ChangeEvent<HTMLInputElement>) : void => {
+    setInput(event.target.value);
   }
 
-  const pasteId = () => {
-    const reportId = document.getElementById('report__id') as unknown as HTMLInputElement;
-    reportId!.value = editReport as any ;
+  const getReport = () : void => {
+    formFetch(input);
+    setInput('');
   }
+
+  const pasteId = () : void => {setInput(editReport)};
 
   return (
     <div className="getform__container">
       <div className="getform__input">
         <h3>REPORT ID:</h3>
-        <input id="report__id" name="report__id" type="text"></input>
+        <input id="report__id" name="report__id" type="text" value={input} onChange={handleInput}/>
         <button onClick={getReport}>FIND REPORT</button>
         {editReport &&
           <button onClick={pasteId}>PASTE ID</button>

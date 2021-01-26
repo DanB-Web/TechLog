@@ -25,9 +25,9 @@ export const getReport = async (id: string ): Promise<IReport | undefined> => {
   return;
 }
 
-export const postReport = async (title: string, tags: string[], description: string, steps: string[], filterPics: HTMLInputElement[]): Promise<void> => {
+export const postReport = async (title: string, tags: string[], description: string, steps: string[], pics: File[]): Promise<void> => {
   //Format + upload pics if required
-  let images : string[] = await uploadPics(filterPics);
+  let images : string[] = await uploadPics(pics);
   try {
     await fetch(BASE_URL + 'postreport', {
     method: 'POST',
@@ -41,15 +41,15 @@ export const postReport = async (title: string, tags: string[], description: str
   }
 }
 
-export const uploadPics = async (filterPics : HTMLInputElement[]) : Promise<string[]> => {
+export const uploadPics = async (pics : File[]) : Promise<string[]> => {
 
   let picsUrls : string[] = [];
 
-  if (filterPics.length > 0) {
+  if (pics.length > 0) {
     //Config pics before fetch - async doesn't work inside forEach...
-    for (const pic of filterPics) {
+    for (const pic of pics) {
       const formData = new FormData();
-      formData.append('file', pic.files![0]);
+      formData.append('file', pic);
       formData.append('upload_preset', process.env.REACT_APP_PRESET_KEY as string);
 
       try {

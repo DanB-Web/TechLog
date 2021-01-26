@@ -1,108 +1,74 @@
 import * as React from 'react';
-import { useEffect } from 'react';
-import { IReport } from '../Utils/interfaces';
 import './SearchTags.css'
 
 
 interface SearchTagsProps {
-  form: IReport | undefined,
-  customTagHandler: (event: {preventDefault : () => void}) => void,
+  tag: string,
+  setTag: (tag: string) => void,
+  tags: string[],
+  removeTag: (tag: string) => void,
+  customTagHandler: (event: React.MouseEvent<HTMLButtonElement>) => void,
 }
 
-const SearchTags : React.FC<SearchTagsProps> = ({form, customTagHandler}) => {
-
-  //Event listener to remove tags
-  useEffect( () => {
-    document.querySelector('.report__search-tags')!.addEventListener('click', (event: any) => {
-      if (event.target.tagName === 'LI') event.target.parentNode.removeChild(event.target);
-    })},
-  []);
+const SearchTags : React.FC<SearchTagsProps> = ({tag, setTag, removeTag, tags, customTagHandler}) => {
 
   return(
     <div className="report__search-tags">
-    {form ? null :
-
-    <div className="report__search-tags__fixed">
-
-    <label>Search Tags</label>
+      <div className="report__search-tags__fixed">
+        <label>Search Tags</label>
 
         <p>Manufacturer</p>
         <hr></hr>
         <div className="search-tag__fixed__section">
-          <div className="search-tag__fixed">
-            <p>Kystdesign</p>
-            <input type="checkbox" className="search-tag__checkbox" value="kyst"/>
-          </div>
-          <div className="search-tag__fixed">
-            <p>Schilling Robotics</p>
-            <input type="checkbox" className="search-tag__checkbox" value="schilling"/>
-          </div>
-          <div className="search-tag__fixed">
-            <p>Reach</p>
-            <input type="checkbox" className="search-tag__checkbox" value="reach"/>
-          </div>
+          {
+            ['Kystdesign', 'Schilling Robotics', 'Reach'].map(man =>      
+              <div key={man} className="search-tag__fixed">
+                <p>{man}</p>
+                <input onChange={()=>{}} type="checkbox" className="search-tag__checkbox" value={man} checked={tags.includes(man)}/>
+              </div>
+              )
+          }
         </div>
-
+        
         <p>Item</p>
         <hr></hr>
         <div className="search-tag__fixed__section">
-          <div className="search-tag__fixed">
-            <p>ROV</p>
-            <input type="checkbox" className="search-tag__checkbox" value="ROV"/>
-          </div>
-          <div className="search-tag__fixed">
-            <p>TMS</p>
-            <input type="checkbox" className="search-tag__checkbox" value="TMS"/>
-          </div>
-          <div className="search-tag__fixed">
-            <p>Winch</p>
-            <input type="checkbox" className="search-tag__checkbox" value="winch"/>
-          </div>
-          <div className="search-tag__fixed">
-            <p>Sensor</p>
-            <input type="checkbox" className="search-tag__checkbox" value="sensor"/>
-          </div>
+          {
+            ['ROV', 'TMS', 'Winch', 'Sensor'].map(item => 
+              <div key={item} className="search-tag__fixed">
+                <p>{item}</p>
+                <input onChange={()=>{}} type="checkbox" className="search-tag__checkbox" value={item} checked={tags.includes(item)}/>
+              </div>
+              )
+          }
         </div>
 
         <p>Equipment</p>
         <hr></hr>
         <div className="search-tag__fixed__section">
-        <div className="search-tag__fixed">
-            <p>Manipulator</p>
-            <input type="checkbox" className="search-tag__checkbox" value="manipulator"/>
-          </div>
-          <div className="search-tag__fixed">
-            <p>Gyro</p>
-            <input type="checkbox" className="search-tag__checkbox" value="gyro"/>
-          </div>
-          <div className="search-tag__fixed">
-            <p>Altimeter</p>
-            <input type="checkbox" className="search-tag__checkbox" value="altimeter"/>
-          </div>
-          <div className="search-tag__fixed">
-            <p>Motor</p>
-            <input type="checkbox" className="search-tag__checkbox" value="motor"/>
-          </div>
-          <div className="search-tag__fixed">
-            <p>Pump</p>
-            <input type="checkbox" className="search-tag__checkbox" value="pump"/>
-          </div>
+          {
+            ['Manipulator', 'Gyro', 'Altimeter', 'Motor', 'Pump'].map(equip => 
+              <div key={equip} className="search-tag__fixed">
+                <p>{equip}</p>
+                <input onChange={()=>{}} type="checkbox" className="search-tag__checkbox" value={equip} checked={tags.includes(equip)}/>
+              </div>
+              )
+          }
         </div>
 
-    </div>}
+      </div>
 
-    <div className="report__search-tags__custom">
-      {form ? <label>Tags</label> : <label>Custom Tags</label>}
-      <ul id="custom__tag__hook">{form && form.tags.map((tag, index) =>
-        <li key={index} className="search-tag__custom">#{tag}</li>)}
-      </ul>
-      <div className="report__search-tags__input">
-        <input id="custom__tag__input" name="custom__tag" type="text"></input>
-        <button onClick={customTagHandler}>ADD TAG</button>
+      <div className="report__search-tags__custom">
+        {tags.length > 0 ? <label>Tags</label> : <label>Custom Tags</label>}
+        <ul id="custom__tag__hook">{tags.length > 0  && tags.map((tag, index) =>
+          <li key={index} className="search-tag__custom" onClick={() => removeTag(tag)}>#{tag}</li>)}
+        </ul>
+        <div className="report__search-tags__input">
+          <input id="custom__tag__input" name="custom__tag" type="text" value={tag} onChange={e => setTag(e.target.value)}/>
+          <button onClick={customTagHandler}>ADD TAG</button>
+        </div>
       </div>
     </div>
-
-  </div>
   )
 
 }
