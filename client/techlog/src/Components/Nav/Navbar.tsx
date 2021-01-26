@@ -1,7 +1,5 @@
 import * as React from 'react';
-
 import { Link } from 'react-router-dom';
-
 import './Navbar.css';
 
 interface NavBarProps {
@@ -13,7 +11,6 @@ interface NavBarProps {
 }
 
 const Navbar: React.FC<NavBarProps> = ({admin, logout, mode, authorised, toggleMode}) => {
-
   return (
     <nav className="navbar__container">
       <div className="navbar__banner">
@@ -25,7 +22,6 @@ const Navbar: React.FC<NavBarProps> = ({admin, logout, mode, authorised, toggleM
         <div className="navbar__links" >
           <Link to='/search' data-testid="search-button">Search</Link>
           <Link to='/new' data-testid="new-button">New</Link>
-          {admin ? <Link to='/edit' data-testid="edit-button">Edit</Link> : null}
           <Link to="/logout" onClick={logout} data-testid="logout-button">Logout</Link>
           <div className="mode__div">
             {mode === 'light' ? <i className="fas fa-moon" data-testid='moon-icon'></i> : <i className="fas fa-sun" data-testid='sun-icon'></i>}

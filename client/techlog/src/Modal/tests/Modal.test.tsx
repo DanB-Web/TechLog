@@ -1,11 +1,10 @@
-import { render, cleanup, screen, act } from '@testing-library/react';
+import { render, cleanup, screen } from '@testing-library/react';
 
 import rest from '../../Utils/rest';
 import Modal from '../Modal'
 
 jest.mock('../../Utils/rest');
 
-const reportId = jest.fn((id: string) => {});
 const toggleModal = jest.fn();
 const callReports = jest.fn();
 const deleteReport = jest.fn(async (id: string) => await Promise.resolve());
@@ -20,7 +19,6 @@ const ModalProps = {
   description: 'mock description',
   steps: ['mock_step'],
   images: ['mock.jpg'],
-  reportId,
   toggleModal,
   callReports
 }
@@ -51,15 +49,15 @@ describe('Modal component tests', () => {
 
 
 
-  it('should display COPY ID and DELETE buttons only if user is admin', () => {
+  it('should display EDIT and DELETE buttons only if user is admin', () => {
     render(<Modal {...ModalProps} admin={false}/>);
-    expect(screen.queryByText(/COPY ID/)).toBeNull();
+    expect(screen.queryByText(/EDIT/)).toBeNull();
     expect(screen.queryByText(/DELETE/)).toBeNull();
 
     cleanup();
 
     render(<Modal {...ModalProps}/>);
-    expect(screen.queryByText(/COPY ID/)).not.toBeNull();
+    expect(screen.queryByText(/EDIT/)).not.toBeNull();
     expect(screen.queryByText(/DELETE/)).not.toBeNull();
   });
 
@@ -77,14 +75,6 @@ describe('Modal component tests', () => {
     expect(deleteReport).toHaveBeenCalledWith('1234');
     expect(callReports).toHaveBeenCalledTimes(1);
     expect(toggleModal).toHaveBeenCalledTimes(1);
-  });
-
-  it('should should copy the report ID', () => {
-    const { getByText} =  render(<Modal {...ModalProps}/>);
-    getByText(/COPY ID/).click();
-
-    expect(reportId).toHaveBeenCalledTimes(1);
-    expect(reportId).toHaveBeenCalledWith('1234');
   });
 
 });

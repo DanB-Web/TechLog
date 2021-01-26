@@ -1,22 +1,10 @@
-import * as React from 'react';
 import './App.css';
-//cool stuff
 import Authorised from './Components/App/Authorised';
-import Unauthorised from './Components/App/Unauthorised';
+//import Unauthorised from './Components/App/Unauthorised';
 
-
-export default function App () {
-
-  //For future login functionality
-  const authorised = true;
-
-  return (
+ const App = () => 
     <div className="App" data-testid="app">
-      {authorised ? 
-        <Authorised/> :
-        <Unauthorised/>}
+        <Authorised/> 
     </div>
-  );
-}
 
-
+export default App

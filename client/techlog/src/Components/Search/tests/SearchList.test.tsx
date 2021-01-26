@@ -16,15 +16,14 @@ rest.getReports = async () : Promise<IReport[]> =>  await Promise.resolve(
    }]
   );
 
-
 describe('SearchList Tests', () => {
   it('Should render The Search List with a mock report', async () => {
-    render(<SearchList admin={true} reportId={(id: string) => {}} />)
+    render(<SearchList admin={true} />)
     await screen.findByText(/Mocked report/)
   });
 
   it('Should show a tag when submited to the searchbar', async () => {
-    const { getByTestId, getByRole, getByText } = render(<SearchList admin={true} reportId={(id: string) => {}} />)
+    const { getByTestId, getByRole, getByText } = render(<SearchList admin={true} />)
     await screen.findByText(/Mocked report/)
     fireEvent.change(getByRole('textbox'), {target: {value: 'testTag'}});
     getByText(/ADD TAG/).click();
@@ -32,7 +31,7 @@ describe('SearchList Tests', () => {
   });
 
   it('Should show the report if filtered by correct tag', async () => {
-    const { getByRole, getByText } = render(<SearchList admin={true} reportId={(id: string) => {}} />)
+    const { getByRole, getByText } = render(<SearchList admin={true} />)
     await screen.findByText(/Mocked report/)
     fireEvent.change(getByRole('textbox'), {target: {value: 'testTag'}});
     getByText(/ADD TAG/).click();
@@ -40,7 +39,7 @@ describe('SearchList Tests', () => {
   });
 
   it('Should show the report if filtered by incorrect tag', async () => {
-    const { getByRole, getByText } = render(<SearchList admin={true} reportId={(id: string) => {}} />)
+    const { getByRole, getByText } = render(<SearchList admin={true} />)
     await screen.findByText(/Mocked report/)
     fireEvent.change(getByRole('textbox'), {target: {value: 'badTag_incorrect'}});
     getByText(/ADD TAG/).click();

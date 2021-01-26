@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {Fragment} from 'react';
 import './Modal.css';
 import rest from '../Utils/rest';
 import Image from './Image';
+import { useHistory } from 'react-router-dom';
 
 interface ModalProps {
   admin: boolean,
@@ -12,41 +12,31 @@ interface ModalProps {
   description: string,
   steps: string[],
   images: string[] | undefined,
-  reportId: (id: string) => void,
   toggleModal: () => void,
   callReports: () => void
 }
 
-const Modal : React.FC<ModalProps> = ({admin, id, title, tags, description, steps, images, reportId, toggleModal, callReports}) => {
+const Modal : React.FC<ModalProps> = ({admin, id, title, tags, description, steps, images, toggleModal, callReports}) => {
+  const history = useHistory()
+  const editReport = () => {history.push(`/edit/${id}`)}
   const deleteReport = async () => {
     await rest.deleteReport(id);
     callReports();
     toggleModal();
   }
-  const closeModal =() => {
-    toggleModal();
-  }
-  const copyToClipboard =() => {
-    const idInput = document.querySelector('.modal__report-id')!.textContent;
-    reportId(idInput as string);
-  }
+
   return (
-    <Fragment>
-    <div className="modal__container">
-
+    <>
+      <div className="modal__container">
       <h2>{title}</h2>
-
       <div className="modal__id">
         <label>Report ID: </label>
         <p className="modal__report-id">{id}</p>
-        {admin && <button onClick={copyToClipboard}>COPY ID</button>}
       </div>
-
       <div className="modal__tags">
         <label>Tags</label>
         <ul>{tags.map((tag, index) => <li key={index}>#{tag}</li>)}</ul>
       </div>
-
       <div className="modal__main-body">
         <label>Description</label>
         <p>{description}</p>
@@ -58,7 +48,6 @@ const Modal : React.FC<ModalProps> = ({admin, id, title, tags, description, step
       <div className="modal__image-container">
 
         <label>Images</label>
-
           <div className="modal__image-container-images">
             {images.length && images.map((image, index) => <Image
               key={index}
@@ -68,13 +57,16 @@ const Modal : React.FC<ModalProps> = ({admin, id, title, tags, description, step
       </div> : null}
 
       <div className="modal__buttons">
-        <button onClick={closeModal}>CLOSE</button>
+        <button onClick={toggleModal}>CLOSE</button>
         {admin &&
+        <>
+          <button onClick={editReport}>EDIT</button>
           <button onClick={deleteReport}>DELETE</button>
+        </>
         }
       </div>
     </div>
-    </Fragment>
+    </>
   )
 }
 export default Modal;

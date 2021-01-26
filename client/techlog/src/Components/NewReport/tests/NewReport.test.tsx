@@ -1,4 +1,4 @@
-import { render, cleanup, fireEvent, screen } from '@testing-library/react';
+import { render, cleanup, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import NewReport from '../NewReport';
 import rest from '../../../Utils/rest';
@@ -14,7 +14,7 @@ global.alert = mockAlert;
 
 const mockReport = {
   title : 'title',
-  searchTags: ['Kystdesign'],
+  searchTags: ['Kystdesign', 'testCustomTag'],
   description: 'description1234',
   steps: ['step'],
   filterPics : []
@@ -50,10 +50,18 @@ describe('NewReport component tests', () => {
     // SET TITLE
     userEvent.type(screen.getByTestId('title') , mockReport.title);
     // ADD A TAG
+    screen.getByDisplayValue('ROV').click();
+    screen.getByDisplayValue('ROV').click();
     screen.getByDisplayValue('Kystdesign').click();
+    // ADD CUSTOM TAG
+    userEvent.type(screen.getByTestId('custom-search-tag') , 'testCustomTag');
+    screen.getByText(/ADD TAG/).click();
     // SET DESCRIPTION
     userEvent.type(screen.getByTestId('description') , mockReport.description);
     // SET A STEP
+    userEvent.type(screen.getByTestId('step-input'), mockReport.steps[0]);
+    screen.getByTestId('add-step').click();
+    screen.getByTestId('step-0').click();
     userEvent.type(screen.getByTestId('step-input'), mockReport.steps[0]);
     screen.getByTestId('add-step').click();
     // SUMBIT FORM

@@ -10,7 +10,6 @@ const BackdropProps = {
   description: 'mock description',
   steps: ['mock_step'],
   images: ['mock.jpg'],
-  reportId: (id:string) => {},
   toggleModal: () => {},
   callReports: () => {},
 }

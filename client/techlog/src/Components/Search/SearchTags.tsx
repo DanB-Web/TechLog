@@ -1,5 +1,4 @@
 import React from 'react';
-
 import './SearchTags.css';
 
 interface SearchTagsProps {
@@ -8,7 +7,6 @@ interface SearchTagsProps {
 }
 
 const SearchTags: React.FC<SearchTagsProps> = ({tag, deleteTagHandler}) => {
-
   return (
     <div className="searchtag__frag" data-testid="search-tags">
       <li className="searchtag__tag" data-testid="search-tag-item">#{tag}</li>

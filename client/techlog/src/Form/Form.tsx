@@ -1,40 +1,24 @@
 import React from 'react';
 import { useState, useEffect, FC } from 'react';
 import { withRouter, useLocation, RouteComponentProps } from 'react-router-dom';
-
 import animations from '../Utils/animations';
 import { IReport } from '../Utils/interfaces';
-
 import SearchTags from './SearchTags';
-
 import './Form.css';
-
-// interface IForm {
-//   title: string,
-//   description: string,
-//   steps: string[]
-// }
 
 interface FormProps {
   formSubmit : (title:string, searchTags:string[], description:string, steps:string[], pics: File[]) => void,
   formPatch: (title:string, searchTags:string[], description:string, steps:string[]) => void,
-  form?: IReport
+  form: IReport
 }
 
 //Note formSubmit comes from NewReport.js, and formPatch from EditReport.js
-const initialState : IReport = {
-  title       :  '',
-  description :  '',
-  tags        :  [],
-  steps       :  []
-}
 const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, form, history } ) => {
   
-  const [formData, setFormData] = useState<IReport>(form || initialState)
+  const [formData, setFormData] = useState<IReport>(form)
   const [step, setStep] = useState<string>('');
   const [tag, setTag] = useState<string>('');
   const location = useLocation();
-
   const addTag = (tag: string) => {
     setFormData(prevState => {
       const tags = [...prevState.tags]
@@ -79,10 +63,8 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
     }).filter(x => x);
 
     //Check what route currently on - if new, formSubmit, and if edit, formPatch
-    if (location.pathname === '/new') {
-      await formSubmit(title, tags, description, steps, pics);
-    }
-    else if (location.pathname === '/edit') await formPatch(title, tags, description, steps);
+    if (location.pathname === '/new') await formSubmit(title, tags, description, steps, pics)
+    else {await formPatch(title, tags, description, steps)}
     history.push('/search');
   }
 

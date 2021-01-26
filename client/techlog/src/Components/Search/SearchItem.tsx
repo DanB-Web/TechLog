@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react'
 import './SearchItem.css';
-
 import animations from '../../Utils/animations';
-
 import SearchItemTag from './SearchItemTag';
 import Backdrop from '../../Modal/Backdrop';
 
@@ -16,37 +14,27 @@ interface SearchItemProps {
   description: string,
   steps: string[],
   images: string[] | undefined,
-  reportId: (id: string) => void,
   callReports: () => void
 }
 
-const SearchItem : React.FC<SearchItemProps> = ( {admin, id, title, tags, searchTags, description, steps, images, reportId, callReports} ) => {
+const SearchItem : React.FC<SearchItemProps> = ( {admin, id, title, tags, searchTags, description, steps, images, callReports} ) => {
 
   const [viewModal, setViewModal ] = useState(false);
 
   const checkTags = () => {
     let flag = true;
-    searchTags.forEach((searchTag) => {
-      if (!tags.includes(searchTag)) flag = false;
-    })
+    searchTags.forEach((searchTag) => {if (!tags.includes(searchTag)) flag = false})
     return flag;
   }
 
   //Animate modal on way in
   useEffect( () => {
-    if (viewModal === true) {
-      animations.modalAnimationIn();
-    }
+    if (viewModal === true) animations.modalAnimationIn();
   }, [viewModal]);
 
-  const toggleModal = () => {
-    setViewModal(!viewModal);
-  }
+  const toggleModal = () => setViewModal(!viewModal);
 
-  if (!checkTags()) {
-    return null;
-  }
-
+  if (!checkTags()) return null;
   if (viewModal) {
     return <Backdrop
       admin={admin}
@@ -56,10 +44,9 @@ const SearchItem : React.FC<SearchItemProps> = ( {admin, id, title, tags, search
       description={description}
       steps={steps}
       images={images}
-      reportId={reportId}
       toggleModal={toggleModal}
       callReports={callReports}
-      />
+    />
   }
 
   return (
