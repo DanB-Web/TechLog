@@ -1,10 +1,7 @@
 import * as React from 'react';
 import {Fragment} from 'react';
-
 import './Modal.css';
-
 import rest from '../Utils/rest';
-
 import Image from './Image';
 
 interface ModalProps {
@@ -21,22 +18,18 @@ interface ModalProps {
 }
 
 const Modal : React.FC<ModalProps> = ({admin, id, title, tags, description, steps, images, reportId, toggleModal, callReports}) => {
-
-  const deleteReport = () => {
-    rest.deleteReport(id);
+  const deleteReport = async () => {
+    await rest.deleteReport(id);
     callReports();
     toggleModal();
   }
-
   const closeModal =() => {
     toggleModal();
   }
-
   const copyToClipboard =() => {
     const idInput = document.querySelector('.modal__report-id')!.textContent;
     reportId(idInput as string);
   }
-
   return (
     <Fragment>
     <div className="modal__container">
@@ -84,5 +77,4 @@ const Modal : React.FC<ModalProps> = ({admin, id, title, tags, description, step
     </Fragment>
   )
 }
-
 export default Modal;

@@ -6,9 +6,8 @@ import Form from '../../Form/Form'
 
 const NewReport = () => {
 
-  const formSubmit = async (title: string, searchTags: string[], description: string, steps: string[], pics: HTMLInputElement[]) => {
-    const filterPics = pics.filter(pic => pic.files!.length !== 0);
-    await rest.postReport(title, searchTags, description, steps, filterPics);
+  const formSubmit = async (title: string, searchTags: string[], description: string, steps: string[], pics: File[]) => {
+    await rest.postReport(title, searchTags, description, steps, pics);
   }
 
   return (

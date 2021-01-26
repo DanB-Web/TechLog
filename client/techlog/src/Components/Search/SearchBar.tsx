@@ -10,9 +10,7 @@ const SearchBar : React.FC<SearchBarProps> = ({ searchTagHandler }) => {
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  // const inputField = document.querySelector('.searchbar__input');
-
-  //Enter key handler
+  //Press "Enter ⌨" key handler
   const enterHandler = (code: number) => {
     if (code === 13) {
       searchTagHandler(searchTerm);
