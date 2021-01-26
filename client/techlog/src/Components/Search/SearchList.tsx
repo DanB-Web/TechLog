@@ -1,24 +1,17 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-
 import './SearchList.css';
-
 import { IReport } from '../../Utils/interfaces';
 import animations from '../../Utils/animations';
-
 import SearchBar from './SearchBar';
 import SearchTags from './SearchTags';
 import SearchItem from './SearchItem';
-
 import rest from '../../Utils/rest';
 
-interface SearchListProps {
-  admin: boolean,
-  reportId: (id:string) => void
-}
+interface SearchListProps {admin: boolean}
 
-const SearchList :React.FC<SearchListProps> = ({ admin, reportId }) => {
-
+const SearchList :React.FC<SearchListProps> = ({ admin }) => {
+  
   const [reports, setReports] = useState<IReport[]>([]);
   const [searchTags, setSearchTags] = useState<string[]>([]);
 
@@ -79,7 +72,6 @@ const SearchList :React.FC<SearchListProps> = ({ admin, reportId }) => {
           description={report.description}
           steps={report.steps}
           images={report.images}
-          reportId={reportId}
           searchTags={searchTags}
           callReports={callReports}
         />)

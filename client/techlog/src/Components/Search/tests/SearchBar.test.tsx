@@ -10,16 +10,16 @@ describe('SearchBar Tests', () => {
     expect(await screen.findByText(/ADD TAG/)).toBeInTheDocument();
 
     fireEvent.change(getByRole('textbox'), {target: {value: 'testTag'}})
-    expect(getByRole('textbox').value).toBe('testTag');
+    expect((getByRole('textbox') as HTMLInputElement).value).toBe('testTag');
 
     // simulate ADD TAG button click
     getByRole('button').click();
     expect(searchTagHandler).toHaveBeenCalledTimes(1);
     expect(searchTagHandler).toHaveBeenCalledWith('testTag');
-    expect(getByRole('textbox').value).toBe('');
+    expect((getByRole('textbox') as HTMLInputElement).value).toBe('');
 
     fireEvent.change(getByRole('textbox'), {target: {value: 'testTag'}})
-    expect(getByRole('textbox').value).toBe('testTag');
+    expect((getByRole('textbox') as HTMLInputElement).value).toBe('testTag');
 
     // simulate enter key
     fireEvent.keyDown(getByRole('textbox'), 
@@ -31,7 +31,7 @@ describe('SearchBar Tests', () => {
       })
     expect(searchTagHandler).toHaveBeenCalledTimes(2);
     expect(searchTagHandler).toHaveBeenCalledWith('testTag');
-    expect(getByRole('textbox').value).toBe('');
+    expect((getByRole('textbox') as HTMLInputElement).value).toBe('');
 
   });
 })

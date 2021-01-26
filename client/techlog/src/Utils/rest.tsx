@@ -3,8 +3,7 @@ import {IReport} from './interfaces';
 const BASE_URL = process.env.REACT_APP_BACKEND_URL as string;
 const PIC_URL = process.env.REACT_APP_CLOUDINARY_URL as string;
 
-
-export const getReports = async () : Promise<IReport[] | undefined>  => {
+const getReports = async () : Promise<IReport[] | undefined>  => {
   try {
     const response = await fetch(BASE_URL + 'allreports')
     return await response.json();
@@ -14,7 +13,7 @@ export const getReports = async () : Promise<IReport[] | undefined>  => {
   return;
 }
 
-export const getReport = async (id: string ): Promise<IReport | undefined> => {
+const getReport = async (id: string ): Promise<IReport | undefined> => {
   try {
     const response = await fetch(BASE_URL + `getreport/${id}`);
     return await response.json();
@@ -25,7 +24,7 @@ export const getReport = async (id: string ): Promise<IReport | undefined> => {
   return;
 }
 
-export const postReport = async (title: string, tags: string[], description: string, steps: string[], pics: File[]): Promise<void> => {
+const postReport = async (title: string, tags: string[], description: string, steps: string[], pics: File[]): Promise<void> => {
   //Format + upload pics if required
   let images : string[] = await uploadPics(pics);
   try {
@@ -41,7 +40,7 @@ export const postReport = async (title: string, tags: string[], description: str
   }
 }
 
-export const uploadPics = async (pics : File[]) : Promise<string[]> => {
+const uploadPics = async (pics : File[]) : Promise<string[]> => {
 
   let picsUrls : string[] = [];
 
@@ -68,7 +67,7 @@ export const uploadPics = async (pics : File[]) : Promise<string[]> => {
   return [];
 }
 
-export const editReport = async (formCopy: IReport) : Promise<void> => {
+const editReport = async (formCopy: IReport) : Promise<void> => {
   try  {
     await fetch(BASE_URL + 'editreport', {
       method: 'PATCH',
@@ -82,7 +81,7 @@ export const editReport = async (formCopy: IReport) : Promise<void> => {
   }
 }
 
-export const deleteReport = async (id: string) : Promise<void>  => {
+const deleteReport = async (id: string) : Promise<void>  => {
   try {
     await fetch(BASE_URL + `deletereport/${id}`, {
       method: 'DELETE'

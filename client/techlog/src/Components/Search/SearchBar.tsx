@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import './SearchBar.css';
 
 interface SearchBarProps {
@@ -14,12 +13,8 @@ const SearchBar : React.FC<SearchBarProps> = ({ searchTagHandler }) => {
   const enterHandler = (code: number) => {
     if (code === 13) {
       searchTagHandler(searchTerm);
-      clearInput();
+      setSearchTerm('');
     }
-  }
-
-  const clearInput = () => {
-   setSearchTerm('')
   }
 
   return (
@@ -36,7 +31,7 @@ const SearchBar : React.FC<SearchBarProps> = ({ searchTagHandler }) => {
         className="searchbar__submit-btn"
         onClick={() => {
           searchTagHandler(searchTerm);
-          clearInput();}}
+          setSearchTerm('');}}
       >ADD TAG</button>
     </div>
   )

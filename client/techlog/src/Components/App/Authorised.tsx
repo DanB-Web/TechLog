@@ -1,12 +1,8 @@
 import * as React from 'react';
 import { useState } from 'react';
-
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-
 import './Authorised.css';
-
 import animations from '../../Utils/animations';
-
 import Navbar from '../Nav/Navbar';
 import SearchList from '../Search/SearchList';
 import NewReport from '../NewReport/NewReport';
@@ -15,23 +11,13 @@ import Login from '../Login/Login';
 import Footer from '../Footer/Footer';
 
 const Authorised = () => {
-
   //App Level State
   const [authorised, setAuthorised] = useState(true);     //Logged in or out
   const [admin, setAdmin] = useState(true);               //Admin mode
   const [mode, setMode] = useState('light');              //Light / dark mode
 
-  //Variable + func to store report id for 'copy and paste' from /search to /edit
-  const [editReport, setEditReport] = useState<string>('');
-  const reportId = (id: string) => {
-    setEditReport(id);
-  };
-
   //Log out of app
-  const logout = () => {
-    setAuthorised(false);
-  }
-
+  const logout = () => setAuthorised(false);
 
   //Set admin rights
   function adminRights (arg: boolean) {
@@ -72,9 +58,9 @@ const Authorised = () => {
             admin={admin}
             />
           <Switch>
-            <Route exact path = '/search' render={(props) => (<SearchList {...props} admin={admin} reportId={reportId}/>)}/>
+            <Route exact path = '/search' render={(props) => (<SearchList {...props} admin={admin}/>)}/>
             <Route exact path = '/new' component={NewReport}/>
-            <Route exact path = '/edit' render={(props) => (<EditReport {...props} editReport={editReport}/>)}/>
+            <Route exact path = '/edit/:id' render={(props) => (<EditReport/>)}/>
             {/* <Route exact path = '/logout' render={(props) => (<Login {...props} adminRights={adminRights}/>)}/> */}
             <Route exact path = '/logout' render={(props) => (<Login {...props} adminRights={adminRights}/>)}/>
             <Redirect to="/logout"/>
@@ -83,7 +69,6 @@ const Authorised = () => {
           <Footer/>
       </div>
     </Router>
-
   )
 }
 

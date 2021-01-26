@@ -6,9 +6,7 @@ import Authorised from '../../App/Authorised';
 
 
 describe('SearchTags Tests', () => {
-  beforeEach(async () => {
-    cleanup()
-  });
+  afterEach(cleanup);
 
   it('Should render the Navbar', async () => {    
     render(
@@ -26,32 +24,14 @@ describe('SearchTags Tests', () => {
   });
 
   it('Should take user to New page on link press', async () => {
-   
-    const { getByTestId, debug } = render(
-      <MemoryRouter>
-        <Authorised/>
-      </MemoryRouter>
-    );
-    const editButton = getByTestId('edit-button')
-    fireEvent.click(editButton)
-    //debug();
-    await screen.findByText(/REPORT ID:/)
-    const newButton = getByTestId('new-button')
-    fireEvent.click(newButton)
-    await screen.findByText(/Report Title/)
-    
-  })
-
-  it('Should take user to the Edit page on link press', async () => {
     const { getByTestId } = render(
       <MemoryRouter>
         <Authorised/>
       </MemoryRouter>
     );
-    const editButton = getByTestId('edit-button')
-    fireEvent.click(editButton)
-    await screen.findByText(/REPORT ID:/)
-
+    const newButton = getByTestId('new-button')
+    fireEvent.click(newButton)
+    await screen.findByText(/Report Title/)
   })
 
   it('Should take user to the Logout page on link press', async () => {

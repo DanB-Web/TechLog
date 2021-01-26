@@ -1,4 +1,4 @@
-import { render, cleanup, waitFor, screen, fireEvent } from '@testing-library/react';
+import { render, cleanup, waitFor, fireEvent } from '@testing-library/react';
 import EditReport from '../EditReport';
 import rest from '../../../Utils/rest';
 import { IReport } from 'src/src/Utils/interfaces';
@@ -13,9 +13,7 @@ const mockReport = {
 }
 
 jest.mock('../../../Utils/rest')
-
 rest.getReport = async () : Promise<IReport> => await Promise.resolve(mockReport);
-
 const mockEditReport = jest.fn()
 rest.editReport = mockEditReport;
 
@@ -25,34 +23,26 @@ jest.mock('react-router-dom', () => ({
   useLocation: () => ({
     pathname: '/edit',
   }),
+  useRouteMatch: () => ({
+    params: {
+      id: '1234'
+    }
+  }),
 }));
 
-describe('EditReport Comopment tests', () => {
-
+describe('EditReport Component tests', () => {
   afterEach(cleanup);
-
-  it('should render EditReport Component', async () => {
-    render(<EditReport editReport='1234'/>);
-    expect(await screen.findByText(/FIND REPORT/)).toBeInTheDocument();
-  });
-
   it('should edit report', async () => {
     const { getByText, getByTestId } = render(
       <MemoryRouter>
-        <EditReport editReport='1234'/>
+        <EditReport/>
       </MemoryRouter>
     );
-    getByText(/PASTE ID/).click();
-    getByText(/FIND REPORT/).click();
     await waitFor(() => getByText(/Report Title/));
-
     fireEvent.change(getByTestId('title') , {target : {value : 'Updated Title'}});
     getByTestId('submit-form').click();
     expect(mockEditReport).toHaveBeenCalledTimes(1);
     expect(mockEditReport).toHaveBeenCalledWith({...mockReport, title: 'Updated Title'});
-
   });
-
-
 
 });
