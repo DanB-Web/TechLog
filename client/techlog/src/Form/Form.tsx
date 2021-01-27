@@ -163,7 +163,9 @@ const Form : FC<FormProps & RouteComponentProps> = ( { formSubmit, formPatch, fo
             <input type="file" className="pics" name='file3' accept='.png, .jpg, .jpeg'></input>
       </div>}
 
-      <input className="report__submit__btn" type="submit" value="SUBMIT" data-testid="submit-form"/>
+      <button className="report__submit__btn" type="submit" data-testid="submit-form">
+        SUBMIT
+      </button>
 
     </form>
   )

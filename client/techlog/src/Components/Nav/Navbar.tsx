@@ -12,7 +12,7 @@ interface NavBarProps {
 
 const Navbar: React.FC<NavBarProps> = ({admin, logout, mode, authorised, toggleMode}) => {
   return (
-    <nav className="navbar__container">
+    <nav>
       <div className="navbar__banner">
         <i className="fas fa-cogs fa-3x"></i>
         <h1 className="navbar__title">TechLog</h1>

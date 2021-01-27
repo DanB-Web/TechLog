@@ -1,9 +1,9 @@
 nav {
   display: flex;
-  height: 15vh;
+  height: 10vh;
   justify-content: space-between;
   border-bottom: 2px solid var(--color-primary);
-  background-color: var(--color-secondary);
+  background-color: var(--color-highlight);
 }
 
 .navbar__banner {
@@ -14,18 +14,19 @@ nav {
 
 .navbar__banner i {
   padding-right: 0.2em;
-  color: var(--color-primary);
+  color: var(--color-text-secondary);
 }
 
 .navbar__title {
   font-size: 270%;
-  color: var(--color-primary);
+  color: var(--color-text-secondary);
 }
 
 .navbar__links {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   padding-right: 2em;
+  padding-top: .6em;
 }
 
 .navbar__links a {
@@ -33,29 +34,30 @@ nav {
   width: 8em;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
   padding-left: 2em;
   padding-right: 2em;
-  color: var(--color-primary);
+  color: var(--color-text-primary);
   font-weight: 600;
+  border-radius: 10px;
+  transition: 100ms;
 }
 
 .navbar__links a:hover {
   color: white;
-  opacity: 80%;
-  background-color: var(--color-accent);
+  background-color: var(--color-secondary);
 }
 
 .mode__div {
   position: relative;
   margin-left: 1em;
   margin-right: 1em;
-  margin-bottom: 2em;
+  margin-bottom: .5em;
 }
 
 .mode__div i {
   font-size: 250%;
-  color: var(--color-primary);
+  color: var(--color-text-secondary);
   position: absolute;
 }
 

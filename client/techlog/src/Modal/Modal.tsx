@@ -28,44 +28,44 @@ const Modal : React.FC<ModalProps> = ({admin, id, title, tags, description, step
   return (
     <>
       <div className="modal__container">
-      <h2>{title}</h2>
-      <div className="modal__id">
-        <label>Report ID: </label>
-        <p className="modal__report-id">{id}</p>
-      </div>
-      <div className="modal__tags">
-        <label>Tags</label>
-        <ul>{tags.map((tag, index) => <li key={index}>#{tag}</li>)}</ul>
-      </div>
-      <div className="modal__main-body">
-        <label>Description</label>
-        <p>{description}</p>
-        <label>Steps</label>
-        <ul>{steps.map((step, index) => <li key={index}>&bull; {step}</li>)}</ul>
-      </div>
-
-      {(images && images.length) ?
-      <div className="modal__image-container">
-
-        <label>Images</label>
-          <div className="modal__image-container-images">
-            {images.length && images.map((image, index) => <Image
-              key={index}
-              image = {image}
-          />)}
+        <div className="modal__buttons">
+          {admin &&
+          <>
+            <button onClick={editReport}>EDIT</button>
+            <button onClick={deleteReport}>DELETE</button>
+          </>
+          }
+          <button onClick={toggleModal}>CLOSE</button>
         </div>
-      </div> : null}
+        <h2>{title}</h2>
+        <div className="modal__id">
+          <label>Report ID: </label>
+          <p className="modal__report-id">{id}</p>
+        </div>
+        <div className="modal__tags">
+          <label>Tags</label>
+          <ul>{tags.map((tag, index) => <li key={index}>#{tag}</li>)}</ul>
+        </div>
+        <div className="modal__main-body">
+          <label>Description</label>
+          <p>{description}</p>
+          <label>Steps</label>
+          <ul>{steps.map((step, index) => <li key={index}>&bull; {step}</li>)}</ul>
+        </div>
 
-      <div className="modal__buttons">
-        <button onClick={toggleModal}>CLOSE</button>
-        {admin &&
-        <>
-          <button onClick={editReport}>EDIT</button>
-          <button onClick={deleteReport}>DELETE</button>
-        </>
-        }
+        {(images && images.length) ?
+        <div className="modal__image-container">
+
+          <label>Images</label>
+            <div className="modal__image-container-images">
+              {images.length && images.map((image, index) => <Image
+                key={index}
+                image = {image}
+            />)}
+          </div>
+        </div> : null}
+
       </div>
-    </div>
     </>
   )
 }

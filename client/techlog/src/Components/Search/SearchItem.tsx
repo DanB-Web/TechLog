@@ -50,15 +50,14 @@ const SearchItem : React.FC<SearchItemProps> = ( {admin, id, title, tags, search
   }
 
   return (
-    <div className="searchitem__container">
+    <div onClick={() => toggleModal()} className="searchitem__container">
       <h3>{title}</h3>
       <ul>
         {tags.map((tag: string, index: string | number | null | undefined) => <SearchItemTag key={index} tag={tag}/>)}
       </ul>
       <div className="searchitem__container__description">
-        <p>{`${description.substring(0,100)}...`}</p>
+        <p>{`${description.substring(0,150)}...`}</p>
       </div>
-      <button onClick={() => toggleModal()}>More details</button>
     </div>
   )
 }

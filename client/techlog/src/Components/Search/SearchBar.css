@@ -12,12 +12,19 @@
   align-items: center;
   font-size: 200%;
   margin-right: 0.6em;
+  color: var(--color-secondary);
 }
 
 .searchbar__input {
+  background-color: var(--color-highlight);
   width: 30%;
   padding: 0.4em;
   margin-right: 0.6em;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.25)inset, 
+  -4px -4px 10px 0 rgba(255, 255, 255, 0.45)inset;
 }
 
 .searchbar__input[type="text"] {
@@ -27,4 +34,6 @@
 .searchbar__submit-btn {
   padding: 0.6em;
   width: 8em;
+  align-self: stretch;
+  margin-bottom: -1px;
 }

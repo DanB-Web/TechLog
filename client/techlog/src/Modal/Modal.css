@@ -82,8 +82,12 @@ html[data-theme="dark"] {
 .modal__buttons {
   /* position: absolute; */
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   width: 80%;
   margin-left: 10%;
   /* bottom: 5px; */
+}
+
+.modal__buttons button{
+  width:18%
 }
