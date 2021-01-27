@@ -13,7 +13,7 @@ const Login : FC<LoginProps & RouteComponentProps> = ( { adminRights } ) => {
     adminRights(true);
     history.push('/search');
   }
-  
+
   const userMode = () => {
     adminRights(false);
     history.push('/search');
@@ -27,7 +27,6 @@ const Login : FC<LoginProps & RouteComponentProps> = ( { adminRights } ) => {
       </div>
       <div className="login__buttons">
         <button onClick={userMode}>USER</button>
-        <button onClick={adminMode}>ADMIN</button>
       </div>
     </div>
   )
