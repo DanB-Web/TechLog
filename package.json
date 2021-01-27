@@ -4,7 +4,7 @@
   "description": "Shared technicians log",
   "main": "index.js",
   "scripts": {
-    "test": "cd server && npm test && cd ../.. && cd client/techlog && npm test"
+    "test": "cd server && npm i && npm test && cd ../.. && cd client/techlog && npm i && npm test"
   },
   "repository": {
     "type": "git",
