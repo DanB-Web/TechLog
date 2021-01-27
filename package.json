@@ -4,7 +4,7 @@
   "description": "Shared technicians log",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cd server && npm test && cd ../.. && cd client/techlog && npm test"
   },
   "repository": {
     "type": "git",
